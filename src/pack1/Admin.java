@@ -1,6 +1,6 @@
 package pack1;
-
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class Admin {
 
@@ -22,6 +22,7 @@ public class Admin {
 
     // implement methods
     private static void addNewEmployee(){
+        System.out.println("--------------");
         Employee emp = new Employee();
         System.out.println("Enter employee's first name :");
         emp.setFirstName(input.nextLine().trim());
@@ -39,9 +40,20 @@ public class Admin {
         emp.setPosition(input.nextLine());
         System.out.println("Enter employee's graduated college :");
         emp.setGraduatedCollege(input.nextLine());
-        System.out.println("Enter employee's year of graduation :");
-        emp.setYearOfGraduation(input.nextInt());
-        input.nextLine();
+
+        boolean valid = false;   // for check graduation year
+        do{
+            try {
+                System.out.println("Enter employee's year of graduation :");
+                emp.setYearOfGraduation(input.nextInt());
+                input.nextLine();
+                valid = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input.");
+                input.nextLine(); // Clear the input buffer
+            }
+        } while(!valid);
+
         System.out.println("Enter employee's total grade :");
         emp.setTotalGrade(input.nextLine());
         System.out.println("Employee added");
@@ -55,22 +67,78 @@ public class Admin {
             return;
         } else {
             for(int i = 0; i < Bank.employees.size(); i++){
-                System.out.printf("Employee num #%d \n",(i + 1));
-                System.out.printf("ID: %d   Name: %s %s \n",Bank.employees.get(i).getID(),Bank.employees.get(i).getFirstName(),Bank.employees.get(i).getLastName());
-                System.out.println("--------");
+                System.out.printf("[%d]\t\tID: %d\tName: %s %s \n",(i + 1),Bank.employees.get(i).getID(),Bank.employees.get(i).getFirstName(),Bank.employees.get(i).getLastName());
             }
-            System.out.println("Enter number of the employee to show his details");
-            int numOfEmployee = input.nextInt();
-            input.nextLine();
             System.out.println("-------------");
-            System.out.printf("ID : %d \n",Bank.employees.get(numOfEmployee - 1).getID());
-            System.out.printf("Name : %s %s \n",Bank.employees.get(numOfEmployee - 1).getFirstName(),Bank.employees.get(numOfEmployee - 1).getLastName());
-            System.out.printf("Address : %s \n",Bank.employees.get(numOfEmployee - 1).getAddress());
-            System.out.printf("Position : %s \n",Bank.employees.get(numOfEmployee - 1).getPosition());
-            System.out.printf("Telephone number : %s \n",Bank.employees.get(numOfEmployee - 1).getTelephoneNumber());
-            System.out.printf("graduated from : %s \n",Bank.employees.get(numOfEmployee - 1).getGraduatedCollege());
-            System.out.printf("graduation year : %d \n",Bank.employees.get(numOfEmployee - 1).getYearOfGraduation());
-            System.out.printf("Total grade : %s \n",Bank.employees.get(numOfEmployee - 1).getTotalGrade());
+
+            boolean valid = false;   // for check choice
+            do{
+                try {
+                    System.out.println("Enter number of the employee to show his details");
+                    int numOfEmployee = input.nextInt();
+                    input.nextLine();
+                    System.out.println("-------------");
+                    System.out.printf("ID: %d \n",Bank.employees.get(numOfEmployee - 1).getID());
+                    System.out.printf("Name: %s %s \n",Bank.employees.get(numOfEmployee - 1).getFirstName(),Bank.employees.get(numOfEmployee - 1).getLastName());
+                    System.out.printf("Address: %s \n",Bank.employees.get(numOfEmployee - 1).getAddress());
+                    System.out.printf("Position: %s \n",Bank.employees.get(numOfEmployee - 1).getPosition());
+                    System.out.printf("Telephone number: %s \n",Bank.employees.get(numOfEmployee - 1).getTelephoneNumber());
+                    System.out.printf("graduated from: %s \n",Bank.employees.get(numOfEmployee - 1).getGraduatedCollege());
+                    System.out.printf("graduation year: %d \n",Bank.employees.get(numOfEmployee - 1).getYearOfGraduation());
+                    System.out.printf("Total grade: %s \n",Bank.employees.get(numOfEmployee - 1).getTotalGrade());
+                    valid = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input.");
+                    input.nextLine(); // Clear the input buffer
+                } catch (IndexOutOfBoundsException e){
+                    System.out.println("Invalid input.");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            } while(!valid);
+        }
+    }
+
+    private static void displayAllClients(){
+        System.out.println("--------------");
+        if (Bank.clients.isEmpty()){
+            System.out.println("There is no clients yet");
+            return;
+        } else{
+            for(int i = 0; i < Bank.clients.size(); i++){
+                System.out.printf("[%d]\t\tID: %d\tName: %s %s \n",(i + 1),Bank.clients.get(i).getID(),Bank.clients.get(i).getFirstName(),Bank.clients.get(i).getLastName());
+            }
+            System.out.println("--------------");
+
+            boolean valid = false;   // for check choice
+            do {
+                try {
+                    System.out.println("Enter number of the client to show his details");
+                    int numOfClient = input.nextInt();
+                    input.nextLine();
+                    System.out.printf("ID: %d \n",Bank.clients.get(numOfClient - 1).getID());
+                    System.out.printf("Name: %s %s \n",Bank.clients.get(numOfClient - 1).getFirstName(),Bank.clients.get(numOfClient - 1).getLastName());
+                    System.out.printf("Address: %s \n",Bank.clients.get(numOfClient - 1).getAddress());
+                    System.out.printf("Telephone number: %s \n",Bank.clients.get(numOfClient - 1).getTelephoneNumber());
+                    for (int nunOfAccount = 0; nunOfAccount < Bank.clients.get(numOfClient - 1).accounts.size(); nunOfAccount++){
+                        System.out.printf("\t\tAccount num #%d \n",(nunOfAccount + 1));
+                        System.out.printf("Account number is: %d \n",Bank.clients.get(numOfClient - 1).accounts.get(nunOfAccount).getAccountNumber());
+                        System.out.printf("Account status is: %s \n",Bank.clients.get(numOfClient - 1).accounts.get(nunOfAccount).getAccountStatus());
+                        System.out.printf("Account type is: %s \n",Bank.clients.get(numOfClient - 1).accounts.get(nunOfAccount).getAccountType());
+                        System.out.printf("Account balance is: %s \n",Bank.clients.get(numOfClient - 1).accounts.get(nunOfAccount).getBalance());
+                        System.out.printf("Has credit card: %s \n",Bank.clients.get(numOfClient - 1).accounts.get(nunOfAccount).getHasCreditCard());
+                    }
+                    valid = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input.");
+                    input.nextLine(); // Clear the input buffer
+                } catch (IndexOutOfBoundsException e){
+                    System.out.println("Invalid input.");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            } while(!valid);
+
         }
     }
 
@@ -107,36 +175,6 @@ public class Admin {
                 default:
                     System.out.println("wrong insertion ");
                     break;
-            }
-        }
-    }
-
-    private static void displayAllClients(){
-        System.out.println("--------------");
-        if (Bank.clients.isEmpty()){
-            System.out.println("There is no clients yet");
-            return;
-        } else{
-            for(int i = 0; i < Bank.clients.size(); i++){
-                System.out.printf("Client num #%d \n",(i + 1));
-                System.out.printf("ID: %d   Name: %s %s \n",Bank.clients.get(i).getID(),Bank.clients.get(i).getFirstName(),Bank.clients.get(i).getLastName());
-            }
-            System.out.println("--------------");
-            System.out.println("Enter number of the client to show his details");
-            int numOfClient = input.nextInt();
-            input.nextLine();
-            System.out.printf("ID : %d \n",Bank.clients.get(numOfClient - 1).getID());
-            System.out.printf("Name : %s %s \n",Bank.clients.get(numOfClient - 1).getFirstName(),Bank.clients.get(numOfClient - 1).getLastName());
-            System.out.printf("Address : %s \n",Bank.clients.get(numOfClient - 1).getAddress());
-            System.out.printf("Telephone number : %s \n",Bank.clients.get(numOfClient - 1).getTelephoneNumber());
-            for (int nunOfAccount = 0; nunOfAccount < Bank.clients.get(numOfClient - 1).accounts.size(); nunOfAccount++){
-                System.out.printf("Account num #%d \n",(nunOfAccount + 1));
-                System.out.printf("Account number is : %d \n",Bank.clients.get(numOfClient - 1).accounts.get(nunOfAccount).getAccountNumber());
-                System.out.printf("Account status is : %s \n",Bank.clients.get(numOfClient - 1).accounts.get(nunOfAccount).getAccountStatus());
-                System.out.printf("Account type is : %s \n",Bank.clients.get(numOfClient - 1).accounts.get(nunOfAccount).getAccountType());
-                System.out.printf("Account balance is : %s \n",Bank.clients.get(numOfClient - 1).accounts.get(nunOfAccount).getBalance());
-                System.out.printf("Credit card is : %s \n",Bank.clients.get(numOfClient - 1).accounts.get(nunOfAccount).getHasCreditCard());
-                System.out.println("-----------");
             }
         }
     }
@@ -256,37 +294,42 @@ public class Admin {
 
 
     public static void adminPage(){
+        System.out.println("---------------");
         System.out.println("Welcome, ADMIN");
         while (true){
-            System.out.println("---------------");
-            System.out.println("Press [1] to add new employees :");
-            System.out.println("Press [2] to display all employees :");
-            System.out.println("Press [3] to display all clients :");
-            System.out.println("Press [4] to display all transactions :");
-            System.out.println("Press [5] to logout :");
+            try {
+                System.out.println("---------------");
+                System.out.println("Press [1] to add new employees :");
+                System.out.println("Press [2] to display all employees :");
+                System.out.println("Press [3] to display all clients :");
+                System.out.println("Press [4] to display all transactions :");
+                System.out.println("Press [5] to logout :");
 
-            int choice = input.nextInt();
-            input.nextLine();
-
-            switch (choice){
-                case 1:
-                    addNewEmployee();
-                    break;
-                case 2:
-                    displayAllEmployees();
-                    break;
-                case 3:
-                    displayAllClients();
-                    break;
-                case 4:
-                    displayAllTransaction();
-                    break;
-                case 5:
-                    return;
-                default:
-                    System.out.println("Invalid insertion");
-                    System.out.println("Reenter your choice");
-
+                int choice = input.nextInt();
+                input.nextLine();
+                switch (choice){
+                    case 1:
+                        addNewEmployee();
+                        break;
+                    case 2:
+                        displayAllEmployees();
+                        break;
+                    case 3:
+                        displayAllClients();
+                        break;
+                    case 4:
+                        displayAllTransaction();
+                        break;
+                    case 5:
+                        return;
+                    default:
+                        System.out.println("Invalid input.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input.");
+                input.nextLine(); // Clear input
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
 
         }
