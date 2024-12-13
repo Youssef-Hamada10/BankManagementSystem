@@ -209,5 +209,17 @@ public abstract class Account {
             System.out.println("----------------");
         }
     }
-
 }
+
+//do {
+//        try {
+//
+//        } catch (InputMismatchException e) {
+//            System.out.println("Invalid input.");
+//            input.nextLine(); // Clear the input buffer
+//        } catch (IndexOutOfBoundsException e) {
+//            System.out.println("Invalid input.");
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//    } while (!valid);
