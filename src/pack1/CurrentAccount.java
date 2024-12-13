@@ -3,15 +3,14 @@ package pack1;
 public class CurrentAccount extends Account {
 
     // attributes
-    private final double minimumBalance = 3000;
-    private final double fees = 500;
-
-
+    private final double minimumBalance;
+    private final double fees;
 
     // constructor
     public CurrentAccount(double balance) {
         super(balance, "current account");
-
+        minimumBalance = 3000;
+        fees = 500;
     }
 
     // getters and setters
@@ -22,7 +21,4 @@ public class CurrentAccount extends Account {
     public double getFees() {
         return fees;
     }
-
-
-
 }

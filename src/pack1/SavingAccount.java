@@ -3,7 +3,7 @@ package pack1;
 public class SavingAccount extends Account {
 
     // attributes
-    private static double interestRate = 0.75;
+    private static final double interestRate = 0.75;
 
     // getters and setters
     public double getInterestRate() {
@@ -20,6 +20,4 @@ public class SavingAccount extends Account {
        super.setBalance(super.getBalance() * SavingAccount.interestRate);
         System.out.println("Interest applied. Your current Balance is : " + super.getBalance());
     }
-
-
 }

@@ -12,7 +12,6 @@ public class CreditCard {
     // attribute
     private final double limit;
     private double remainingLimit ;
-    private static int cardNumber = 55555;
     private final int accountNumber;
     private String status;
     private int loyaltyPoints = 0;
@@ -27,7 +26,6 @@ public class CreditCard {
 
     // constructor
     public CreditCard(int accountNumber) {
-        CreditCard.cardNumber++;
         this.accountNumber = accountNumber;
         this.status = "disabled";
         limit = 20000;
@@ -50,10 +48,6 @@ public class CreditCard {
 
     public double getLimit() {
         return limit;
-    }
-
-    public int getCardNumber() {
-        return cardNumber;
     }
 
     public String getStatus() {
@@ -79,9 +73,5 @@ public class CreditCard {
     public String getExpDate() {
         return expDate;
     }
-
-    // implement method
-
-
 
 }

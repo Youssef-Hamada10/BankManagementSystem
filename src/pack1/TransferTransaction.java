@@ -32,7 +32,6 @@ public class TransferTransaction extends Transaction{
     public static void addTransactionToBank(double amount, int senderAccount, int recipientAccount){
         Transaction trans = new TransferTransaction() ;
         TransferTransaction transaction = (TransferTransaction) trans;
-//        System.out.println(TransferTransaction.getTransactionType());
         transaction.setAmount(amount);
         transaction.setSenderAccount(senderAccount);
         transaction.setRecipientAccount(recipientAccount);
@@ -42,7 +41,6 @@ public class TransferTransaction extends Transaction{
     public static Transaction addTransactionToAccount(double amount, int senderAccount, int recipientAccount){
         Transaction trans = new TransferTransaction() ;
         TransferTransaction transaction = (TransferTransaction) trans;
-//        System.out.println(TransferTransaction.getTransactionType());
         transaction.setAmount(amount);
         transaction.setSenderAccount(senderAccount);
         transaction.setRecipientAccount(recipientAccount);

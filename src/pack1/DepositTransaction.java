@@ -24,7 +24,6 @@ public class DepositTransaction extends Transaction{
     public static void addTransactionToBank(double amount, int accountNumber){
         Transaction trans = new DepositTransaction() ;
         DepositTransaction transaction = (DepositTransaction) trans;
-//        System.out.println(DepositTransaction.getTransactionType());
         transaction.setAmount(amount);
         transaction.setAccountNumber(accountNumber);
         Bank.transactions.add(transaction);
@@ -32,7 +31,6 @@ public class DepositTransaction extends Transaction{
     public static Transaction addTransactionToAccount(double amount, int accountNumber){
         Transaction trans = new DepositTransaction() ;
         DepositTransaction transaction = (DepositTransaction) trans;
-//        System.out.println(DepositTransaction.getTransactionType());
         transaction.setAmount(amount);
         transaction.setAccountNumber(accountNumber);
         return transaction;

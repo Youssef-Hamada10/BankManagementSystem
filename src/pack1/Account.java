@@ -1,6 +1,7 @@
 package pack1;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public abstract class Account {
@@ -65,48 +66,82 @@ public abstract class Account {
 
     // implement method
     public void transferMoney() {
-        // Transfer money to another account
-        System.out.println("Enter the account number");
-        int recipientAccount = input.nextInt();
-        input.nextLine();
-        int i = 0, j = 0;
-        boolean found = false;
-        for ( ; i < Bank.clients.size(); i++) {
-            for( ; j < Bank.clients.get(i).accounts.size(); j++){
-                if (Bank.clients.get(i).accounts.get(j).getAccountNumber() == recipientAccount) {
-                    found = true;
-                    break;
+        System.out.println("-------------");
+        boolean isTransfered = false;
+        do {
+            try {
+                System.out.println("Enter the account number");
+                int recipientAccount = input.nextInt();
+                input.nextLine();
+                int i = 0, j = 0;
+                boolean found = false;
+                for ( ; i < Bank.clients.size(); i++) {
+                    for( ; j < Bank.clients.get(i).accounts.size(); j++){
+                        if (Bank.clients.get(i).accounts.get(j).getAccountNumber() == recipientAccount) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (found) {
+                        break;
+                    }
                 }
+                if (!found) {
+                    System.out.println("the recipient account not found ");
+                    return;
+                }
+                boolean valid = false;
+                do {
+                    try {
+                        System.out.println("Enter amount to transfer :");
+                        double amount = input.nextDouble();
+                        input.nextLine();
+                        valid = true;
+                        if (this.getBalance() < amount) {
+                            System.out.println("You don't hava enough money ");
+                            return;
+                        } else {
+                            Bank.clients.get(i).accounts.get(j).setBalance( Bank.clients.get(i).accounts.get(j).getBalance() + amount);
+                            this.setBalance(this.getBalance() - amount);
+                            System.out.printf("The remaining amount is : %f \n", this.getBalance());
+                        }
+                        // add to transaction list
+                        TransferTransaction.addTransactionToBank(amount, this.getAccountNumber(), recipientAccount);
+                        transactions.add(TransferTransaction.addTransactionToAccount(amount, this.getAccountNumber(), recipientAccount));
+                        isTransfered = true;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input.");
+                        input.nextLine(); // Clear the input buffer
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                } while (!valid);
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input.");
+                input.nextLine(); // Clear the input buffer
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
-            if (found) {
-                break;
-            }
-        }
-        if (!found) {
-            System.out.println("the recipient account not found ");
-            return;
-        }
-        System.out.println("Enter amount to transfer :");
-        double amount = input.nextDouble();
-        input.nextLine();
-        if (this.getBalance() < amount) {
-            System.out.println("You don't hava enough money ");
-            return;
-        } else {
-            Bank.clients.get(i).accounts.get(j).setBalance( Bank.clients.get(i).accounts.get(j).getBalance() + amount);
-            this.setBalance(this.getBalance() - amount);
-            System.out.printf("The remaining amount is : %f \n", this.getBalance());
-        }
-        // add to transaction list
-        TransferTransaction.addTransactionToBank(amount, this.getAccountNumber(), recipientAccount);
-        transactions.add(TransferTransaction.addTransactionToAccount(amount, this.getAccountNumber(), recipientAccount));
-
+        } while (!isTransfered);
     }
 
     public void withDraw() {
-        System.out.println("Enter the amount");
-        double amount = input.nextDouble();
-        input.nextLine();
+        System.out.println("---------------");
+        double amount = 0;
+        boolean valid = false;
+        do {
+            try {
+                System.out.println("Enter the amount");
+                amount = input.nextDouble();
+                input.nextLine();
+                valid = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input.");
+                input.nextLine(); // Clear the input buffer
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } while (!valid);
         if (this.getBalance() < amount) {
             System.out.println("You don't have enough money");
             return;
@@ -115,16 +150,27 @@ public abstract class Account {
             System.out.printf("The remaining balance is : %f \n", this.getBalance());
         }
         // add to transaction list
-//        WithDrawTransaction trans = new WithDrawTransaction();
         WithDrawTransaction.addTransactionToBank(amount, this.getAccountNumber());
         transactions.add(WithDrawTransaction.addTransactionToAccount(amount, this.getAccountNumber()));
     }
 
     public void makeDeposit() {
-        // Make a deposit to the account
-        System.out.println("Enter the amount :");
-        double amount = input.nextDouble();
-        input.nextLine();
+        System.out.println("---------------");
+        double amount = 0;
+        boolean valid = false;
+        do {
+            try {
+                System.out.println("Enter the amount :");
+                amount = input.nextDouble();
+                input.nextLine();
+                valid = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input.");
+                input.nextLine(); // Clear the input buffer
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } while (!valid);
         this.setBalance(this.getBalance() + amount);
         System.out.printf("Your current balance is : %f \n",this.getBalance());
         // add to transaction list
@@ -133,17 +179,29 @@ public abstract class Account {
     }
 
     public void payWithCreditCard() {
-        // Pay with the credit card
-       if(this.getHasCreditCard() == false){
+        System.out.println("-------------");
+        double amount = 0;
+       if(!this.getHasCreditCard()){
            System.out.println("You do not have a credit card");
        } else {
            if (this.creditCard.getStatus().equals("disable")) {
                System.out.println("Your card is disabled");
                return;
            } else {
-               System.out.println("enter the amount due");
-               double amount = input.nextDouble();
-               input.nextLine();
+               boolean valid = false;
+               do {
+                    try {
+                        System.out.println("enter the amount due");
+                        amount = input.nextDouble();
+                        input.nextLine();
+                        valid = true;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input.");
+                        input.nextLine(); // Clear the input buffer
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                } while (!valid);
                if (this.creditCard.getRemainingLimit() >= amount) {
                    this.creditCard.setRemainingLimit(this.creditCard.getRemainingLimit() - amount);
                    System.out.printf("The remaining balance is : %f \n", this.creditCard.getRemainingLimit());
@@ -160,66 +218,54 @@ public abstract class Account {
     }
 
     public void disableCreditCard() {
+        System.out.println("---------------");
         this.creditCard.setStatus("disabled");
         System.out.println("Your credit card is disabled");
     }
 
     public void exchangeLoyaltyPoints(){
+        System.out.println("----------------");
         if (this.creditCard.getLoyaltyPoints() == 0){
             System.out.println("You don not have loyalty point");
         } else {
             System.out.printf("Your loyalty points is : %d \n",this.creditCard.getLoyaltyPoints());
-            double amount = this.creditCard.getLoyaltyPoints() * 1.0;
+            double amount = this.creditCard.getLoyaltyPoints() * 2.0;
             System.out.printf("Your balance will increase by : %f \n",amount);
             this.creditCard.setRemainingLimit(this.creditCard.getRemainingLimit() + amount);
         }
     }
 
     public void askForCreditCard() {
+        System.out.println("--------------");
         if (this.getHasCreditCard()){
             System.out.println("You already have one");
         } else {
             this.setHasCreditCard(true);
             this.creditCard.setStatus("active");
-            System.out.println("You now have a credit card");
+            System.out.println("You now have a credit card with amount of 20000");
         }
     }
 
     public void showTransactionHistory() {
-        for (int i = 0; i < transactions.size(); i++){
-            System.out.printf("ID: %d \n",transactions.get(i).getId());
-            System.out.printf("Date: %s \n",transactions.get(i).getDate());
-            System.out.printf("Amount: %f \n",transactions.get(i).getAmount());
-            if (transactions.get(i) instanceof TransferTransaction){
-                System.out.println("Transaction type: Transfer Transaction");
-                System.out.printf("Sender account: %d \n",((TransferTransaction)transactions.get(i)).getSenderAccount());
-                System.out.printf("Recipient account: %d \n",((TransferTransaction)transactions.get(i)).getRecipientAccount());
-            } else if (transactions.get(i) instanceof WithDrawTransaction) {
-                System.out.println("Transaction type: WithDraw Transaction");
-                System.out.printf("Account number: %d \n",((WithDrawTransaction) transactions.get(i)).getAccountNumber());
-            } else if (transactions.get(i) instanceof DepositTransaction){
-                System.out.println("Transaction type: Deposit Transaction");
-                System.out.printf("Account number: %d \n",((DepositTransaction) transactions.get(i)).getAccountNumber());
+        System.out.println("---------------");
+        int counter = 1;
+        for (Transaction transaction : transactions) {
+            System.out.printf("[%d]\t\tID: %d\tDate: %s\tAmount: %f\t",counter,transaction.getId(),transaction.getDate(),transaction.getAmount());
+            if (transaction instanceof TransferTransaction) {
+                System.out.print("Transaction type: Transfer Transaction\t");
+                System.out.printf("Sender account: %d \t", ((TransferTransaction) transaction).getSenderAccount());
+                System.out.printf("Recipient account: %d \n", ((TransferTransaction) transaction).getRecipientAccount());
+            } else if (transaction instanceof WithDrawTransaction) {
+                System.out.print("Transaction type: WithDraw Transaction \t");
+                System.out.printf("Account number: %d \n", ((WithDrawTransaction) transaction).getAccountNumber());
+            } else if (transaction instanceof DepositTransaction) {
+                System.out.print("Transaction type: Deposit Transaction \t");
+                System.out.printf("Account number: %d \n", ((DepositTransaction) transaction).getAccountNumber());
             } else {
-                // credit card transaction
-                System.out.println("Transaction type: Credit card Transaction");
-                System.out.printf("Account number: %d \n",((CreditCardTransaction) transactions.get(i)).getAccountNumber());
-
+                System.out.print("Transaction type: Credit card Transaction \t");
+                System.out.printf("Account number: %d \n", ((CreditCardTransaction) transaction).getAccountNumber());
             }
-            System.out.println("----------------");
+            counter++;
         }
     }
 }
-
-//do {
-//        try {
-//
-//        } catch (InputMismatchException e) {
-//            System.out.println("Invalid input.");
-//            input.nextLine(); // Clear the input buffer
-//        } catch (IndexOutOfBoundsException e) {
-//            System.out.println("Invalid input.");
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//    } while (!valid);

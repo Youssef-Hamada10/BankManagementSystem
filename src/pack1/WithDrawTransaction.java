@@ -23,7 +23,6 @@ public class WithDrawTransaction extends Transaction{
     public static void addTransactionToBank(double amount, int accountNumber){
         Transaction trans = new WithDrawTransaction() ;
         WithDrawTransaction transaction = (WithDrawTransaction) trans;
-//      System.out.println(WithDrawTransaction.getTransactionType());
         transaction.setAmount(amount);
         transaction.setAccountNumber(accountNumber);
         Bank.transactions.add(transaction);
@@ -31,7 +30,6 @@ public class WithDrawTransaction extends Transaction{
     public static Transaction addTransactionToAccount(double amount, int accountNumber){
         Transaction trans = new WithDrawTransaction() ;
         WithDrawTransaction transaction = (WithDrawTransaction) trans;
-//      System.out.println(WithDrawTransaction.getTransactionType());
         transaction.setAmount(amount);
         transaction.setAccountNumber(accountNumber);
         return transaction;

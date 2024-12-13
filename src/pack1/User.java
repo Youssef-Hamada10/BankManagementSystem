@@ -13,22 +13,6 @@ public abstract class User {
     private String telephoneNumber;
 
     // getters and setters
-//    public int getEmpcount() {
-//        return empcount;
-//    }
-//
-//    public void setEmpcount(int empcount) {
-//        this.empcount = empcount;
-//    }
-//
-//    public int getClicount() {
-//        return clicount;
-//    }
-//
-//    public void setClicount(int clicount) {
-//        this.clicount = clicount;
-//    }
-
     public String getFirstName() {
         return firstName;
     }

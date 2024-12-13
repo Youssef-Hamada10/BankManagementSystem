@@ -130,7 +130,8 @@ public class Client extends User {
                 System.out.println("Press [8] to pay with credit card");
                 System.out.println("Press [9] to disable the credit card");
                 System.out.println("Press [10] to exchange loyalty points");
-                System.out.println("Press [11] to logout");
+                System.out.println("Press [11] to exchange loyalty points");
+                System.out.println("Press [12] to logout");
                 int choice = input.nextInt();
                 input.nextLine();
                 switch (choice){
@@ -173,6 +174,14 @@ public class Client extends User {
                         this.accounts.get(indexOfAccount).exchangeLoyaltyPoints();
                         break;
                     case 11:
+                        showAllAccount();
+                        if(this.accounts.get(indexOfAccount).getAccountType().equals("saving account")){
+                            ((SavingAccount)this.accounts.get(indexOfAccount)).applyInterest();
+                        } else {
+                            System.out.println("This account is not saving account");
+                        }
+                        break;
+                    case 12:
                         return;
                     default :
                         System.out.println("Invalid input.");
@@ -185,5 +194,6 @@ public class Client extends User {
             }
         }
     }
+
 }
 

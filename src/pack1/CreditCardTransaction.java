@@ -22,7 +22,6 @@ public class CreditCardTransaction extends Transaction{
     public static void addTransactionToBank(double amount, int accountNumber){
         Transaction trans = new CreditCardTransaction() ;
         CreditCardTransaction transaction = (CreditCardTransaction) trans;
-//        System.out.println(CreditCardTransaction.getTransactionType());
         transaction.setAmount(amount);
         transaction.setAccountNumber(accountNumber);
         Bank.transactions.add(transaction);
@@ -30,7 +29,6 @@ public class CreditCardTransaction extends Transaction{
     public static Transaction addTransactionToAccount(double amount, int accountNumber){
         Transaction trans = new CreditCardTransaction() ;
         CreditCardTransaction transaction = (CreditCardTransaction) trans;
-//        System.out.println(CreditCardTransaction.getTransactionType());
         transaction.setAmount(amount);
         transaction.setAccountNumber(accountNumber);
         return transaction;
