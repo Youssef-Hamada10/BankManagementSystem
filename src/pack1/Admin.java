@@ -148,34 +148,48 @@ public class Admin {
             System.out.println("There is no transactions yet");
             return;
         } else {
-            System.out.println("Press [1] to display by date :");
-            System.out.println("Press [2] to display by client :");
-            System.out.println("Press [3] to display by employee :");
-            System.out.println("Press [4] to exit :");
-            int choice = input.nextInt();
-            input.nextLine();
-            switch (choice){
-                case 1:
-                    System.out.println("Enter date at the form dd-MM-yyyy :");
-                    String date = input.nextLine();
-                    displayTransactionsByDate(date.trim());
-                    break;
-                case 2:
-                    System.out.println("Enter client name :");
-                    String clientName = input.nextLine();
-                    displayTransactionsByClient(clientName.trim().toLowerCase());
-                    break;
-                case 3:
-                    System.out.println("Enter employee name :");
-                    String employeeName = input.nextLine().trim().toLowerCase();
-                    displayTransactionsByEmployee(employeeName.trim().toLowerCase());
-                    break;
-                case 4:
-                    return;
-                default:
-                    System.out.println("wrong insertion ");
-                    break;
-            }
+            boolean valid = false;   // for check choice
+            do{
+                System.out.println("Press [1] to display by date :");
+                System.out.println("Press [2] to display by client :");
+                System.out.println("Press [3] to display by employee :");
+                System.out.println("Press [4] to exit :");
+                int choice = input.nextInt();
+                input.nextLine();
+                try {
+                    switch (choice){
+                        case 1:
+                            System.out.println("Enter date at the form dd-MM-yyyy :");
+                            String date = input.nextLine();
+                            displayTransactionsByDate(date.trim());
+                            valid = true;
+                            break;
+                        case 2:
+                            System.out.println("Enter client name :");
+                            String clientName = input.nextLine();
+                            displayTransactionsByClient(clientName.trim().toLowerCase());
+                            valid = true;
+                            break;
+                        case 3:
+                            System.out.println("Enter employee name :");
+                            String employeeName = input.nextLine().trim().toLowerCase();
+                            displayTransactionsByEmployee(employeeName.trim().toLowerCase());
+                            valid = true;
+                            break;
+                        case 4:
+                            valid = true;
+                            return;
+                        default:
+                            System.out.println("Invalid input.");
+                            break;
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input.");
+                    input.nextLine(); // Clear the input buffer
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            } while(!valid);
         }
     }
 
@@ -185,30 +199,39 @@ public class Admin {
             System.out.println("There is no transaction yet");
             return;
         } else{
-            int counter = 0;    // to know the transaction is exist or no
-            for(int i = 0; i < Bank.transactions.size(); i++){
-                if(Bank.transactions.get(i).getDate().contains(date)){
-                    System.out.printf("Transaction id: %d \n",Bank.transactions.get(i).getId());
-                    System.out.printf("Date: %s \n",Bank.transactions.get(i).getDate());
-                    System.out.printf("Amount: %f \n",Bank.transactions.get(i).getAmount());
-                    if(Bank.transactions.get(i) instanceof WithDrawTransaction){
-                        System.out.printf("Transaction type is %s \n",WithDrawTransaction.getTransactionType());
-                        System.out.printf("Account number : %d \n",((WithDrawTransaction) Bank.transactions.get(i)).getAccountNumber());
-                    } else if (Bank.transactions.get(i) instanceof TransferTransaction) {
-                        System.out.printf("Transaction type is : %s \n",TransferTransaction.getTransactionType());
-                        System.out.printf("Sender Account number : %d \n",((TransferTransaction) Bank.transactions.get(i)).getSenderAccount());
-                        System.out.printf("Recipient Account number : %d \n",((TransferTransaction) Bank.transactions.get(i)).getRecipientAccount());
-                    } else if (Bank.transactions.get(i) instanceof DepositTransaction) {
-                        System.out.printf("Transaction type is : %s \n",DepositTransaction.getTransactionType());
-                        System.out.printf("Account number : %d \n",((DepositTransaction) Bank.transactions.get(i)).getAccountNumber());
-                    } else {
-                        System.out.printf("Transaction type is %s \n",CreditCardTransaction.getTransactionType());
+            try {
+                int counter = 0;    // to know the transaction is exist or no
+                for(int i = 0; i < Bank.transactions.size(); i++){
+                    if(Bank.transactions.get(i).getDate().contains(date)){
+                        System.out.printf("Transaction id: %d \n",Bank.transactions.get(i).getId());
+                        System.out.printf("Date: %s \n",Bank.transactions.get(i).getDate());
+                        System.out.printf("Amount: %f \n",Bank.transactions.get(i).getAmount());
+                        if(Bank.transactions.get(i) instanceof WithDrawTransaction){
+                            System.out.printf("Transaction type is %s \n",WithDrawTransaction.getTransactionType());
+                            System.out.printf("Account number : %d \n",((WithDrawTransaction) Bank.transactions.get(i)).getAccountNumber());
+                        } else if (Bank.transactions.get(i) instanceof TransferTransaction) {
+                            System.out.printf("Transaction type is : %s \n",TransferTransaction.getTransactionType());
+                            System.out.printf("Sender Account number : %d \n",((TransferTransaction) Bank.transactions.get(i)).getSenderAccount());
+                            System.out.printf("Recipient Account number : %d \n",((TransferTransaction) Bank.transactions.get(i)).getRecipientAccount());
+                        } else if (Bank.transactions.get(i) instanceof DepositTransaction) {
+                            System.out.printf("Transaction type is : %s \n",DepositTransaction.getTransactionType());
+                            System.out.printf("Account number : %d \n",((DepositTransaction) Bank.transactions.get(i)).getAccountNumber());
+                        } else {
+                            System.out.printf("Transaction type is %s \n",CreditCardTransaction.getTransactionType());
+                        }
+                        counter++;
                     }
-                    counter++;
                 }
-            }
-            if(counter == 0){
-                System.out.println("There is no transaction with this date " + date);
+                if(counter == 0){
+                    System.out.println("There is no transaction with this date " + date);
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input.");
+                input.nextLine(); // Clear the input buffer
+            } catch (IndexOutOfBoundsException e){
+                System.out.println("Invalid input.");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -218,37 +241,44 @@ public class Admin {
         if(Bank.clients.isEmpty()){
             System.out.println("There is no clients yet");
         }
-        int numOfClient = 0;
-        for ( ; numOfClient < Bank.clients.size(); numOfClient++) {
-            if((Bank.clients.get(numOfClient).getFirstName() + " ").concat(Bank.clients.get(numOfClient).getLastName()).equalsIgnoreCase(clientName.trim())){
-               for (int numOfAccount = 0; numOfAccount < Bank.clients.get(numOfClient).accounts.size(); numOfAccount ++){
-                   System.out.printf("Account num #%d \n",(numOfAccount + 1));
-                   for (int numOfTransaction = 0; numOfTransaction < Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.size(); numOfTransaction ++){
-                       System.out.println("---------");
-                       System.out.printf("ID: %d \n",Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction).getId());
-                       System.out.printf("Date: %s \n",Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction).getDate());
-                       System.out.printf("Amount: %f \n",Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction).getAmount());
-                       if (Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction) instanceof TransferTransaction){
-                           System.out.println("Transaction type: Transfer Transaction");
-                           System.out.printf("Sender account: %d \n",((TransferTransaction)Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getSenderAccount());
-                           System.out.printf("Recipient account: %d \n",((TransferTransaction)Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getRecipientAccount());
-                       } else if (Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction) instanceof WithDrawTransaction) {
-                           System.out.println("Transaction type: WithDraw Transaction");
-                           System.out.printf("Account number: %d \n",((WithDrawTransaction) Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getAccountNumber());
-                       } else if (Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction) instanceof DepositTransaction){
-                           System.out.println("Transaction type: Deposit Transaction");
-                           System.out.printf("Account number: %d \n",((DepositTransaction) Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getAccountNumber());
-                       } else {
-                           // credit card transaction
-                           System.out.println("Transaction type : Credit card Transaction");
-
-                       }
-                   }
-                   System.out.println("--------------");
-               }
-            } else {
-                System.out.println("No result match your search");
+        try {
+            int numOfClient = 0;
+            for ( ; numOfClient < Bank.clients.size(); numOfClient++) {
+                if((Bank.clients.get(numOfClient).getFirstName() + " ").concat(Bank.clients.get(numOfClient).getLastName()).equalsIgnoreCase(clientName.trim())){
+                    for (int numOfAccount = 0; numOfAccount < Bank.clients.get(numOfClient).accounts.size(); numOfAccount ++){
+                        System.out.printf("Account num #%d \n",(numOfAccount + 1));
+                        for (int numOfTransaction = 0; numOfTransaction < Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.size(); numOfTransaction ++){
+                            System.out.println("---------");
+                            System.out.printf("ID: %d \n",Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction).getId());
+                            System.out.printf("Date: %s \n",Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction).getDate());
+                            System.out.printf("Amount: %f \n",Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction).getAmount());
+                            if (Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction) instanceof TransferTransaction){
+                                System.out.println("Transaction type: Transfer Transaction");
+                                System.out.printf("Sender account: %d \n",((TransferTransaction)Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getSenderAccount());
+                                System.out.printf("Recipient account: %d \n",((TransferTransaction)Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getRecipientAccount());
+                            } else if (Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction) instanceof WithDrawTransaction) {
+                                System.out.println("Transaction type: WithDraw Transaction");
+                                System.out.printf("Account number: %d \n",((WithDrawTransaction) Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getAccountNumber());
+                            } else if (Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction) instanceof DepositTransaction){
+                                System.out.println("Transaction type: Deposit Transaction");
+                                System.out.printf("Account number: %d \n",((DepositTransaction) Bank.clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getAccountNumber());
+                            } else {
+                                System.out.println("Transaction type : Credit card Transaction");
+                            }
+                        }
+                        System.out.println("--------------");
+                    }
+                } else {
+                    System.out.println("No result match your search");
+                }
             }
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input.");
+            input.nextLine(); // Clear the input buffer
+        } catch (IndexOutOfBoundsException e){
+            System.out.println("Invalid input.");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -257,41 +287,48 @@ public class Admin {
         if(Bank.employees.isEmpty()){
             System.out.println("There is no employees yet");
         }
-        int numOfEmployee = 0;
-        for ( ; numOfEmployee < Bank.employees.size(); numOfEmployee++) {
-            if((Bank.employees.get(numOfEmployee).getFirstName() + " ").concat(Bank.employees.get(numOfEmployee).getLastName()).equalsIgnoreCase(employeeName.trim())){
-                for (int numOfClient = 0; numOfClient < Bank.employees.get(numOfEmployee).clients.size() ; numOfClient++) {
-                    System.out.printf("Client num #%d \n",numOfClient);
-                    for (int numOfAccount = 0; numOfAccount < Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.size(); numOfAccount ++){
-                        System.out.printf("Account num #%d \n",(numOfAccount + 1));
-                        for (int numOfTransaction = 0; numOfTransaction < Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.size(); numOfTransaction ++){
-                            System.out.printf("ID: %d \n",Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction).getId());
-                            System.out.printf("Date: %s \n",Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction).getDate());
-                            System.out.printf("Amount: %f \n",Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction).getAmount());
-                            if (Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction) instanceof TransferTransaction){
-                                System.out.println("Transaction type : Transfer Transaction");
-                                System.out.printf("Sender account: %d \n",((TransferTransaction)Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getSenderAccount());
-                                System.out.printf("Recipient account: %d \n",((TransferTransaction)Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getRecipientAccount());
-                            } else if (Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction) instanceof WithDrawTransaction) {
-                                System.out.println("Transaction type: WithDraw Transaction");
-                                System.out.printf("Account number: %d \n",((WithDrawTransaction) Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getAccountNumber());
-                            } else if (Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction) instanceof DepositTransaction){
-                                System.out.println("Transaction type: Deposit Transaction");
-                                System.out.printf("Account number: %d \n",((DepositTransaction) Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getAccountNumber());
-                            } else {
-                                // credit card transaction
-                                System.out.println("Transaction type : Credit card Transaction");
+        try {
+            int numOfEmployee = 0;
+            for ( ; numOfEmployee < Bank.employees.size(); numOfEmployee++) {
+                if((Bank.employees.get(numOfEmployee).getFirstName() + " ").concat(Bank.employees.get(numOfEmployee).getLastName()).equalsIgnoreCase(employeeName.trim())){
+                    for (int numOfClient = 0; numOfClient < Bank.employees.get(numOfEmployee).clients.size() ; numOfClient++) {
+                        System.out.printf("Client num #%d \n",numOfClient);
+                        for (int numOfAccount = 0; numOfAccount < Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.size(); numOfAccount ++){
+                            System.out.printf("Account num #%d \n",(numOfAccount + 1));
+                            for (int numOfTransaction = 0; numOfTransaction < Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.size(); numOfTransaction ++){
+                                System.out.printf("ID: %d \n",Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction).getId());
+                                System.out.printf("Date: %s \n",Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction).getDate());
+                                System.out.printf("Amount: %f \n",Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction).getAmount());
+                                if (Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction) instanceof TransferTransaction){
+                                    System.out.println("Transaction type : Transfer Transaction");
+                                    System.out.printf("Sender account: %d \n",((TransferTransaction)Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getSenderAccount());
+                                    System.out.printf("Recipient account: %d \n",((TransferTransaction)Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getRecipientAccount());
+                                } else if (Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction) instanceof WithDrawTransaction) {
+                                    System.out.println("Transaction type: WithDraw Transaction");
+                                    System.out.printf("Account number: %d \n",((WithDrawTransaction) Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getAccountNumber());
+                                } else if (Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction) instanceof DepositTransaction){
+                                    System.out.println("Transaction type: Deposit Transaction");
+                                    System.out.printf("Account number: %d \n",((DepositTransaction) Bank.employees.get(numOfEmployee).clients.get(numOfClient).accounts.get(numOfAccount).transactions.get(numOfTransaction)).getAccountNumber());
+                                } else {
+                                    System.out.println("Transaction type : Credit card Transaction");
+                                }
                             }
                         }
+                        System.out.println("--------------");
                     }
-                    System.out.println("--------------");
+                } else {
+                    System.out.println("No result match your search");
                 }
-            } else {
-                System.out.println("No result match your search");
             }
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input.");
+            input.nextLine(); // Clear the input buffer
+        } catch (IndexOutOfBoundsException e){
+            System.out.println("Invalid input.");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
-
 
     public static void adminPage(){
         System.out.println("---------------");
@@ -335,5 +372,4 @@ public class Admin {
         }
 
     }
-
 }
