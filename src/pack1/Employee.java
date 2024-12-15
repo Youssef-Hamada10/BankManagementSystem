@@ -63,6 +63,7 @@ public class Employee extends User {
 
     // implement methods
     public void displayEmployeeInfo() {
+        System.out.println("--------------");
         System.out.println("Name : " + this.getFirstName() + " " + this.getLastName());
         System.out.println("ID : " + this.getID());
         System.out.println("Username : " + this.getUsername());
@@ -125,50 +126,53 @@ public class Employee extends User {
         client.setAddress(input.nextLine());
         Bank.clients.add(client);
         clients.add(client);
-        Bank.clients.add(client);
         System.out.println("Client created");
     }
 
     public void createClientAccount() {
-        boolean valid = false;   // for checking
-        do {
-            try {
-                System.out.println("---------------");
-                for (int i = 0; i < Bank.clients.size(); i++) {
-                    System.out.printf("[%d] ID: %d   Name: %s %s \n", (i + 1), clients.get(i).getID(), clients.get(i).getFirstName(), clients.get(i).getLastName());
-                }
-                System.out.println("---------------");
-                System.out.println("Enter number of client to create account");
-                int num = input.nextInt();
-                input.nextLine();
-                System.out.println("Enter account type");
-                String type = input.nextLine();
-                System.out.println("Enter balance");
-                double balance = input.nextDouble();
-                input.nextLine();
-                if (type.trim().equalsIgnoreCase("saving account")) {
-                    SavingAccount account = new SavingAccount(balance);
-                    Bank.clients.get(num - 1).accounts.add(account);
-                    Bank.accounts.add(account);
-                    System.out.println("Account created");
-                } else if (type.trim().equalsIgnoreCase("current account")) {
-                    CurrentAccount account = new CurrentAccount(balance);
-                    Bank.clients.get(num - 1).accounts.add(account);
-                    Bank.accounts.add(account);
-                    System.out.println("Account created");
-                } else {
-                    System.out.println("Invalid input.");
-                }
-                valid = true;
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input.");
-                input.nextLine(); // Clear the input buffer
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println("Invalid input.");
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+        System.out.println("---------------");
+        if (Bank.clients.isEmpty()){
+            System.out.println("There is no client yet");
+            return;
+        } else {
+            for (int i = 0; i < Bank.clients.size(); i++) {
+                System.out.printf("[%d]\t\tID: %d\tName: %s %s \n",(i + 1),Bank.clients.get(i).getID(),Bank.clients.get(i).getFirstName(),Bank.clients.get(i).getLastName());
             }
-        } while (!valid);
+            boolean valid = false;   // for checking
+            do {
+                try {
+                    System.out.println("---------------");
+                    System.out.println("Enter number of client to create account");
+                    int num = input.nextInt();
+                    input.nextLine();
+                    System.out.println("Enter account type");
+                    String type = input.nextLine();
+                    System.out.println("Enter balance");
+                    double balance = input.nextDouble();
+                    input.nextLine();
+                    if (type.trim().equalsIgnoreCase("saving account")) {
+                        SavingAccount account = new SavingAccount(balance);
+                        Bank.clients.get(num - 1).accounts.add(account);
+                        Bank.accounts.add(account);
+                        System.out.println("Account created");
+                        valid = true;
+                    } else if (type.trim().equalsIgnoreCase("current account")) {
+                        CurrentAccount account = new CurrentAccount(balance);
+                        Bank.clients.get(num - 1).accounts.add(account);
+                        Bank.accounts.add(account);
+                        System.out.println("Account created");
+                        valid = true;
+                    } else {
+                        System.out.println("Invalid input.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input.");
+                    input.nextLine(); // Clear the input buffer
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            } while (!valid);
+        }
     }
 
     public void editClientAccount() {
@@ -179,17 +183,17 @@ public class Employee extends User {
         } else {
             for (int numOfClient = 0; numOfClient < Bank.clients.size(); numOfClient++) {
                 System.out.printf("[%d]\t\tID: %d\tName: %s %s\n", (numOfClient + 1), Bank.clients.get(numOfClient).getID(), Bank.clients.get(numOfClient).getFirstName(), Bank.clients.get(numOfClient).getLastName());
-                System.out.println("----------");
+                System.out.println("\t\t----------");
                 if (Bank.clients.get(numOfClient).accounts.isEmpty()) {
                     System.out.println("This client has no accounts");
                 } else {
                     for (int numOfAccount = 0; numOfAccount < Bank.clients.get(numOfClient).accounts.size(); numOfAccount++) {
-                        System.out.printf("[%d]\t\tAccount number: %d\tStatus: %s\tType: %s\tBalance: %f \n", (numOfAccount + 1),
+                        System.out.printf("\t\t[%d]\t\tAccount number: %d\tStatus: %s\tType: %s\tBalance: %f \n", (numOfAccount + 1),
                                 Bank.clients.get(numOfClient).accounts.get(numOfAccount).getAccountNumber(), Bank.clients.get(numOfClient).accounts.get(numOfAccount).getAccountStatus(),
                                 Bank.clients.get(numOfClient).accounts.get(numOfAccount).getAccountType(), Bank.clients.get(numOfClient).accounts.get(numOfAccount).getBalance());
                     }
                 }
-                System.out.println("------------");
+                System.out.println("\t\t------------");
             }
             boolean valid = false;
             do {
@@ -343,8 +347,7 @@ public class Employee extends User {
                     System.out.println("There is no client yet");
                 } else {
                     for (int numOfClient = 0; numOfClient < Bank.clients.size(); numOfClient++) {
-                        System.out.printf("[%d]\t\tID: %d\tName: %s %s\tNumber of accounts:%d \n", (numOfClient + 1), Bank.clients.get(numOfClient).getID(),
-                                Bank.clients.get(numOfClient).getFirstName(), Bank.clients.get(numOfClient).getLastName(), Bank.clients.get(numOfClient).accounts.size());
+                        System.out.printf("[%d]\t\tID: %d\tName: %s %s\tNumber of accounts: %d \n",(numOfClient + 1),Bank.clients.get(numOfClient).getID(),Bank.clients.get(numOfClient).getFirstName(),Bank.clients.get(numOfClient).getLastName(),Bank.clients.get(numOfClient).accounts.size());
                     }
                     System.out.println("Enter number of client to delete :");
                     int numOfClient = input.nextInt();
@@ -411,41 +414,45 @@ public class Employee extends User {
         while (true) {
             try {
                 System.out.println("---------------");
-                System.out.println("Press [1] to edit personal info :");
-                System.out.println("Press [2] to add new client :");
-                System.out.println("Press [3] to create client account :");
-                System.out.println("Press [4] to edit client account :");
-                System.out.println("Press [5] to search for client :");
-                System.out.println("Press [6] to delete client account :");
-                System.out.println("Press [7] to delete client :");
-                System.out.println("Press [8] to logout :");
+                System.out.println("Press [1] to Display personal info :");
+                System.out.println("Press [2] to edit personal info :");
+                System.out.println("Press [3] to add new client :");
+                System.out.println("Press [4] to create client account :");
+                System.out.println("Press [5] to edit client account :");
+                System.out.println("Press [6] to search for client :");
+                System.out.println("Press [7] to delete client account :");
+                System.out.println("Press [8] to delete client :");
+                System.out.println("Press [9] to logout :");
 
                 int choice = input.nextInt();
                 input.nextLine();
 
                 switch (choice) {
                     case 1:
-                        editPersonalInfo();
+                        displayEmployeeInfo();
                         break;
                     case 2:
-                        createClient();
+                        editPersonalInfo();
                         break;
                     case 3:
-                        createClientAccount();
+                        createClient();
                         break;
                     case 4:
-                        editClientAccount();
+                        createClientAccount();
                         break;
                     case 5:
-                        searchForClient();
+                        editClientAccount();
                         break;
                     case 6:
-                        deleteClientAccount();
+                        searchForClient();
                         break;
                     case 7:
-                        deleteClient();
+                        deleteClientAccount();
                         break;
                     case 8:
+                        deleteClient();
+                        break;
+                    case 9:
                         return;
                     default:
                         System.out.println("Invalid input.");

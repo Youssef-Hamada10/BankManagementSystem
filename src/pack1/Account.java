@@ -107,7 +107,7 @@ public abstract class Account {
                         }
                         // add to transaction list
                         TransferTransaction.addTransactionToBank(amount, this.getAccountNumber(), recipientAccount);
-                        transactions.add(TransferTransaction.addTransactionToAccount(amount, this.getAccountNumber(), recipientAccount));
+                        Account.transactions.add(TransferTransaction.addTransactionToAccount(amount, this.getAccountNumber(), recipientAccount));
                         isTransfered = true;
                     } catch (InputMismatchException e) {
                         System.out.println("Invalid input.");
@@ -151,7 +151,7 @@ public abstract class Account {
         }
         // add to transaction list
         WithDrawTransaction.addTransactionToBank(amount, this.getAccountNumber());
-        transactions.add(WithDrawTransaction.addTransactionToAccount(amount, this.getAccountNumber()));
+        Account.transactions.add(WithDrawTransaction.addTransactionToAccount(amount, this.getAccountNumber()));
     }
 
     public void makeDeposit() {
@@ -175,7 +175,7 @@ public abstract class Account {
         System.out.printf("Your current balance is : %f \n",this.getBalance());
         // add to transaction list
         DepositTransaction.addTransactionToBank(amount, this.getAccountNumber());
-        transactions.add(DepositTransaction.addTransactionToAccount(amount, this.getAccountNumber()));
+        Account.transactions.add(DepositTransaction.addTransactionToAccount(amount, this.getAccountNumber()));
     }
 
     public void payWithCreditCard() {
@@ -249,7 +249,7 @@ public abstract class Account {
     public void showTransactionHistory() {
         System.out.println("---------------");
         int counter = 1;
-        for (Transaction transaction : transactions) {
+        for (Transaction transaction : Account.transactions) {
             System.out.printf("[%d]\t\tID: %d\tDate: %s\tAmount: %f\t",counter,transaction.getId(),transaction.getDate(),transaction.getAmount());
             if (transaction instanceof TransferTransaction) {
                 System.out.print("Transaction type: Transfer Transaction\t");

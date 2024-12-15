@@ -87,7 +87,7 @@ public class Client extends User {
         }
     }
 
-    int indexOfAccount;
+    int indexOfAccount;   // to select an account
     public void showAllAccount(){
         boolean found = false;
         do {
@@ -130,7 +130,7 @@ public class Client extends User {
                 System.out.println("Press [8] to pay with credit card");
                 System.out.println("Press [9] to disable the credit card");
                 System.out.println("Press [10] to exchange loyalty points");
-                System.out.println("Press [11] to exchange loyalty points");
+                System.out.println("Press [11] to apply intereast");
                 System.out.println("Press [12] to logout");
                 int choice = input.nextInt();
                 input.nextLine();
@@ -143,15 +143,30 @@ public class Client extends User {
                         break;
                     case 3:
                         showAllAccount();
-                        this.accounts.get(indexOfAccount).transferMoney();
+                        if (this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
+                            System.out.println("This account is closed.");
+                            return;
+                        } else {
+                            this.accounts.get(indexOfAccount).transferMoney();
+                        }
                         break;
                     case 4:
                         showAllAccount();
-                        this.accounts.get(indexOfAccount).makeDeposit();
+                        if (this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
+                            System.out.println("This account is closed.");
+                            return;
+                        } else {
+                            this.accounts.get(indexOfAccount).makeDeposit();
+                        }
                         break;
                     case 5:
                         showAllAccount();
-                        this.accounts.get(indexOfAccount).withDraw();
+                        if (this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
+                            System.out.println("This account is closed.");
+                            return;
+                        } else {
+                            this.accounts.get(indexOfAccount).withDraw();
+                        }
                         break;
                     case 6:
                         showAllAccount();
@@ -159,23 +174,43 @@ public class Client extends User {
                         break;
                     case 7:
                         showAllAccount();
-                        this.accounts.get(indexOfAccount).askForCreditCard();
+                        if (this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
+                            System.out.println("This account is closed.");
+                            return;
+                        } else {
+                            this.accounts.get(indexOfAccount).askForCreditCard();
+                        }
                         break;
                     case 8:
                         showAllAccount();
-                        this.accounts.get(indexOfAccount).payWithCreditCard();
+                        if (this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
+                            System.out.println("This account is closed.");
+                            return;
+                        } else {
+                            this.accounts.get(indexOfAccount).payWithCreditCard();
+                        }
                         break;
                     case 9:
                         showAllAccount();
-                        this.accounts.get(indexOfAccount).disableCreditCard();
+                        if (this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
+                            System.out.println("This account is closed.");
+                            return;
+                        } else {
+                            this.accounts.get(indexOfAccount).disableCreditCard();
+                        }
                         break;
                     case 10:
                         showAllAccount();
-                        this.accounts.get(indexOfAccount).exchangeLoyaltyPoints();
+                        if (this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
+                            System.out.println("This account is closed.");
+                            return;
+                        } else {
+                            this.accounts.get(indexOfAccount).exchangeLoyaltyPoints();
+                        }
                         break;
                     case 11:
                         showAllAccount();
-                        if(this.accounts.get(indexOfAccount).getAccountType().equals("saving account")){
+                        if(this.accounts.get(indexOfAccount).getAccountType().equals("saving account") && this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
                             ((SavingAccount)this.accounts.get(indexOfAccount)).applyInterest();
                         } else {
                             System.out.println("This account is not saving account");
