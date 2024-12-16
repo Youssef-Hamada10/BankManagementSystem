@@ -9,9 +9,6 @@ public class Employee extends User {
     // object from scanner class
     Scanner input = new Scanner(System.in);
 
-    // list of client
-    ArrayList<Client> clients = new ArrayList<>();
-
     // attributes
     private final int ID;
     private String position;
@@ -71,7 +68,7 @@ public class Employee extends User {
         System.out.println("Address : " + this.getAddress());
         System.out.println("Position : " + this.getPosition());
         System.out.println("Telephone number : " + this.getTelephoneNumber());
-        System.out.println("graduated from : " + this.getGraduatedCollege() + " in : " + this.getYearOfGraduation());
+        System.out.println("graduated from : " + this.getGraduatedCollege() + " since : " + this.getYearOfGraduation());
         System.out.println("Total grade : " + this.getTotalGrade());
     }
 
@@ -124,8 +121,8 @@ public class Employee extends User {
         client.setTelephoneNumber(input.nextLine());
         System.out.println("Enter client's address :");
         client.setAddress(input.nextLine());
+        client.setCreatedBy(this.getFirstName().concat(" " + this.getLastName()));
         Bank.clients.add(client);
-        clients.add(client);
         System.out.println("Client created");
     }
 
@@ -151,14 +148,12 @@ public class Employee extends User {
                     double balance = input.nextDouble();
                     input.nextLine();
                     if (type.trim().equalsIgnoreCase("saving account")) {
-                        SavingAccount account = new SavingAccount(balance);
-                        Bank.clients.get(num - 1).accounts.add(account);
+                        SavingAccount account = new SavingAccount(Bank.clients.get(num - 1).getFirstName().concat(" " + Bank.clients.get(num - 1).getLastName()), balance);
                         Bank.accounts.add(account);
                         System.out.println("Account created");
                         valid = true;
                     } else if (type.trim().equalsIgnoreCase("current account")) {
-                        CurrentAccount account = new CurrentAccount(balance);
-                        Bank.clients.get(num - 1).accounts.add(account);
+                        CurrentAccount account = new CurrentAccount(Bank.clients.get(num - 1).getFirstName().concat(" " + Bank.clients.get(num - 1).getLastName()), balance);
                         Bank.accounts.add(account);
                         System.out.println("Account created");
                         valid = true;
@@ -181,19 +176,24 @@ public class Employee extends User {
             System.out.println("There is no client yet");
             return;
         } else {
+            int NOA;
             for (int numOfClient = 0; numOfClient < Bank.clients.size(); numOfClient++) {
+                System.out.println("---------");
+                NOA = 0;
                 System.out.printf("[%d]\t\tID: %d\tName: %s %s\n", (numOfClient + 1), Bank.clients.get(numOfClient).getID(), Bank.clients.get(numOfClient).getFirstName(), Bank.clients.get(numOfClient).getLastName());
                 System.out.println("\t\t----------");
-                if (Bank.clients.get(numOfClient).accounts.isEmpty()) {
-                    System.out.println("This client has no accounts");
-                } else {
-                    for (int numOfAccount = 0; numOfAccount < Bank.clients.get(numOfClient).accounts.size(); numOfAccount++) {
+                for (int numOfAccount = 0; numOfAccount < Bank.accounts.size(); numOfAccount++) {
+                    if (Bank.accounts.get(numOfAccount).getClientName().equals(Bank.clients.get(numOfClient).getFirstName().concat(" " + Bank.clients.get(numOfClient).getLastName()))) {
                         System.out.printf("\t\t[%d]\t\tAccount number: %d\tStatus: %s\tType: %s\tBalance: %f \n", (numOfAccount + 1),
-                                Bank.clients.get(numOfClient).accounts.get(numOfAccount).getAccountNumber(), Bank.clients.get(numOfClient).accounts.get(numOfAccount).getAccountStatus(),
-                                Bank.clients.get(numOfClient).accounts.get(numOfAccount).getAccountType(), Bank.clients.get(numOfClient).accounts.get(numOfAccount).getBalance());
+                                Bank.accounts.get(numOfAccount).getAccountNumber(), Bank.accounts.get(numOfAccount).getAccountStatus(),
+                                Bank.accounts.get(numOfAccount).getAccountType(), Bank.accounts.get(numOfAccount).getBalance());
+                        NOA++;
                     }
                 }
-                System.out.println("\t\t------------");
+                if (NOA == 0) {
+                    System.out.println("This client has no accounts");
+                }
+                System.out.println("-----------------");
             }
             boolean valid = false;
             do {
@@ -205,25 +205,32 @@ public class Employee extends User {
                     int numOfAccount = input.nextInt();
                     input.nextLine();
 
+                    valid = true;
                     boolean innerValid = false;
                     do {
                         try {
                             System.out.println("Press [1] to edit account status");
                             System.out.println("Press [2] to edit account balance");
-                            System.out.println("Press [3] to exit");
+                            System.out.println("Press [3] to edit account type");
+                            System.out.println("Press [4] to exit");
                             int num = input.nextInt();
                             input.nextLine();
+                            innerValid = true;
                             switch (num) {
                                 case 1:
                                     System.out.println("Enter the new account status");
-                                    Bank.clients.get(numOfClient - 1).accounts.get(numOfAccount - 1).setAccountStatus(input.nextLine());
+                                    Bank.accounts.get(numOfAccount - 1).setAccountStatus(input.nextLine());
                                     break;
                                 case 2:
                                     System.out.println("Enter the new balance");
-                                    Bank.clients.get(numOfClient - 1).accounts.get(numOfAccount - 1).setBalance(input.nextDouble());
+                                    Bank.accounts.get(numOfAccount - 1).setBalance(input.nextDouble());
                                     input.nextLine();
                                     break;
                                 case 3:
+                                    System.out.println("Enter the new type");
+                                    Bank.accounts.get(numOfAccount - 1).setAccountType(input.nextLine());
+                                    break;
+                                case 4:
                                     return;
                                 default:
                                     System.out.println("Invalid input.");
@@ -292,18 +299,11 @@ public class Employee extends User {
                 found = true;
                 if (found) {
                     System.out.println("The client is exist");
-                    System.out.printf("Client name: %s %s\tAddress: %s\tTelephone number: %s \n", Bank.clients.get(i).getFirstName(), Bank.clients.get(i).getLastName(),
+                    System.out.printf("Client name: %s %s \t Address: %s \t Telephone number: %s \n", Bank.clients.get(i).getFirstName(), Bank.clients.get(i).getLastName(),
                             Bank.clients.get(i).getAddress(), Bank.clients.get(i).getTelephoneNumber());
-                    System.out.println("------------");
-                    if (Bank.clients.get(i).accounts.isEmpty()) {
-                        System.out.printf("%s %s has no account \n", Bank.clients.get(i).getFirstName(), Bank.clients.get(i).getLastName());
-                    } else {
-                        System.out.printf("%s %s has %d account \n", Bank.clients.get(i).getFirstName(), Bank.clients.get(i).getLastName(), Bank.clients.get(i).accounts.size());
-                        for (int j = 0; j < Bank.clients.get(i).accounts.size(); j++) {
-                            System.out.printf("[%d]\t\tAccount number: %d\tStatus: %s\tType: %s\tBalance: %f\tHas credit card : %b \n",
-                                    (j + 1), Bank.clients.get(i).accounts.get(j).getAccountNumber(), Bank.clients.get(i).accounts.get(j).getAccountStatus(),
-                                    Bank.clients.get(i).accounts.get(j).getAccountType(), Bank.clients.get(i).accounts.get(j).getBalance(),
-                                    Bank.clients.get(i).accounts.get(j).getHasCreditCard());
+                    for (int j = 0; j < Bank.accounts.size(); j++) {
+                        if (Bank.accounts.get(j).getClientName().equalsIgnoreCase(Name)){
+                            System.out.printf("Account number: %d \t Status: %s \t Type: %s \t Balance: %f",Bank.accounts.get(j).getAccountNumber(),Bank.accounts.get(j).getAccountStatus(),Bank.accounts.get(j).getAccountType(),Bank.accounts.get(j).getBalance());
                         }
                     }
                 }
@@ -318,19 +318,11 @@ public class Employee extends User {
         System.out.println("---------------");
         input.nextLine();
         boolean found = false;
-        for (int numOfClient = 0; numOfClient < Bank.clients.size(); numOfClient++) {
-            for (int numOfAccount = 0; numOfAccount < Bank.clients.get(numOfClient).accounts.size(); numOfAccount++) {
-                if (Bank.clients.get(numOfClient).accounts.get(numOfAccount).getAccountNumber() == accountNumber) {
-                    found = true;
-                    if (found) {
-                        System.out.println("The client is exist");
-                        System.out.printf("Name: %s %s\tAddress: %s\tTelephone number: %s\tStatus: %s\tType: %s\tBalance: %s\t Has credit card: %b", Bank.clients.get(numOfClient).getFirstName(),
-                                Bank.clients.get(numOfClient).getLastName(), Bank.clients.get(numOfClient).getAddress(), Bank.clients.get(numOfClient).getTelephoneNumber(),
-                                Bank.clients.get(numOfClient).accounts.get(numOfAccount).getAccountStatus(), Bank.clients.get(numOfClient).accounts.get(numOfAccount).getAccountType(),
-                                Bank.clients.get(numOfClient).accounts.get(numOfAccount).getBalance(), Bank.clients.get(numOfClient).accounts.get(numOfAccount).getHasCreditCard());
-                        break;
-                    }
-                }
+        for (int i = 0; i < Bank.accounts.size(); i++) {
+            if (Bank.accounts.get(i).getAccountNumber() == accountNumber){
+                found = true;
+                System.out.printf("Name: %s\tStatus: %s\tBalance: %f \n",Bank.accounts.get(i).getClientName(),Bank.accounts.get(i).getAccountStatus(),Bank.accounts.get(i).getBalance());
+                break;
             }
         }
         if (!found) {
@@ -347,7 +339,7 @@ public class Employee extends User {
                     System.out.println("There is no client yet");
                 } else {
                     for (int numOfClient = 0; numOfClient < Bank.clients.size(); numOfClient++) {
-                        System.out.printf("[%d]\t\tID: %d\tName: %s %s\tNumber of accounts: %d \n",(numOfClient + 1),Bank.clients.get(numOfClient).getID(),Bank.clients.get(numOfClient).getFirstName(),Bank.clients.get(numOfClient).getLastName(),Bank.clients.get(numOfClient).accounts.size());
+                        System.out.printf("[%d]\t\tID: %d\tName: %s %s \n",(numOfClient + 1),Bank.clients.get(numOfClient).getID(),Bank.clients.get(numOfClient).getFirstName(),Bank.clients.get(numOfClient).getLastName());
                     }
                     System.out.println("Enter number of client to delete :");
                     int numOfClient = input.nextInt();
@@ -369,44 +361,34 @@ public class Employee extends User {
 
     public void deleteClientAccount () {
         System.out.println("--------------");
-        for (int numOfClient = 0; numOfClient < Bank.clients.size(); numOfClient++){
-            System.out.printf("[%d]\t\tID: %d\tName: %s %s\n", (numOfClient + 1), Bank.clients.get(numOfClient).getID(), Bank.clients.get(numOfClient).getFirstName(), Bank.clients.get(numOfClient).getLastName());
-            System.out.println("-------------");
-            if(Bank.clients.get(numOfClient).accounts.isEmpty()){
-                System.out.println("This client has no account");
-                System.out.println("--------------");
-            } else {
-                for (int numOfAccount = 0; numOfAccount < Bank.clients.get(numOfClient).accounts.size(); numOfAccount++){
-                    System.out.printf("[%d]\t\tAccount number: %d\tStatus: %s\tType: %s\tBalance: %f \n", (numOfAccount + 1),
-                            Bank.clients.get(numOfClient).accounts.get(numOfAccount).getAccountNumber(), Bank.clients.get(numOfClient).accounts.get(numOfAccount).getAccountStatus(),
-                            Bank.clients.get(numOfClient).accounts.get(numOfAccount).getAccountType(), Bank.clients.get(numOfClient).accounts.get(numOfAccount).getBalance());
+        if(Bank.accounts.isEmpty()){
+            System.out.println("There is no accounts yet");
+        } else {
+            for (int i = 0; i < Bank.accounts.size(); i++) {
+                System.out.printf("[%d]\t\tName: %s\t Account number: %d\t Status: %s\t Balance: %f\t Account type: %s \n",(i + 1),Bank.accounts.get(i).getClientName(),Bank.accounts.get(i).getAccountNumber(),Bank.accounts.get(i).getAccountStatus(),Bank.accounts.get(i).getBalance(),Bank.accounts.get(i).getAccountType());
+            }
+            boolean valid = false;
+            do {
+                try {
+                    System.out.println("-----------");
+                    System.out.println("Enter account number");
+                    int numOfAccount = input.nextInt();
+                    input.nextLine();
+                    Bank.accounts.remove(numOfAccount - 1);
+                    System.out.println("Account removed");
+                    valid = true;
+                } catch (InputMismatchException e) {
+                System.out.println("Invalid input.");
+                    input.nextLine(); // Clear the input buffer
+                } catch (IndexOutOfBoundsException e) {
+                System.out.println("Invalid input.");
+                } catch (Exception e) {
+                System.out.println(e.getMessage());
                 }
-            }
-            System.out.println("-------------");
-        }
-        boolean valid = false;
-        do {
-            try {
-                System.out.println("Enter client number");
-                int numOfClient = input.nextInt();
-                input.nextLine();
-                System.out.println("Enter account number");
-                int numOfAccount = input.nextInt();
-                input.nextLine();
-                Bank.clients.get(numOfClient - 1).accounts.remove(numOfAccount - 1);
-                System.out.println("Account removed");
-                valid = true;
-            } catch (InputMismatchException e) {
-            System.out.println("Invalid input.");
-                input.nextLine(); // Clear the input buffer
-            } catch (IndexOutOfBoundsException e) {
-            System.out.println("Invalid input.");
-            } catch (Exception e) {
-            System.out.println(e.getMessage());
-            }
-        } while (!valid);
-    }
+            } while (!valid);
 
+        }
+    }
 
     public void employeePage () {
         System.out.println("---------------");

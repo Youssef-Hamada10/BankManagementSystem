@@ -19,19 +19,14 @@ public class CreditCardTransaction extends Transaction{
     }
 
     //implement method
-    public static void addTransactionToBank(double amount, int accountNumber){
-        Transaction trans = new CreditCardTransaction() ;
-        CreditCardTransaction transaction = (CreditCardTransaction) trans;
+    public static void addTransactionToBank(String name, double amount, int accountNumber){
+//        Transaction trans = new CreditCardTransaction() ;
+//        CreditCardTransaction transaction = (CreditCardTransaction) trans;
+        CreditCardTransaction transaction = new CreditCardTransaction();
+        transaction.setClientName(name);
         transaction.setAmount(amount);
         transaction.setAccountNumber(accountNumber);
         Bank.transactions.add(transaction);
-    }
-    public static Transaction addTransactionToAccount(double amount, int accountNumber){
-        Transaction trans = new CreditCardTransaction() ;
-        CreditCardTransaction transaction = (CreditCardTransaction) trans;
-        transaction.setAmount(amount);
-        transaction.setAccountNumber(accountNumber);
-        return transaction;
     }
 
 }

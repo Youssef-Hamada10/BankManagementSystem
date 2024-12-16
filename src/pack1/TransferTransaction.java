@@ -29,22 +29,15 @@ public class TransferTransaction extends Transaction{
     }
 
     //implement method
-    public static void addTransactionToBank(double amount, int senderAccount, int recipientAccount){
-        Transaction trans = new TransferTransaction() ;
-        TransferTransaction transaction = (TransferTransaction) trans;
+    public static void addTransactionToBank(String name,double amount, int senderAccount, int recipientAccount){
+//        Transaction trans = new TransferTransaction() ;
+//        TransferTransaction transaction = (TransferTransaction) trans;
+        TransferTransaction transaction = new TransferTransaction();
+        transaction.setClientName(name);
         transaction.setAmount(amount);
         transaction.setSenderAccount(senderAccount);
         transaction.setRecipientAccount(recipientAccount);
         Bank.transactions.add(transaction);
-
-    }
-    public static Transaction addTransactionToAccount(double amount, int senderAccount, int recipientAccount){
-        Transaction trans = new TransferTransaction() ;
-        TransferTransaction transaction = (TransferTransaction) trans;
-        transaction.setAmount(amount);
-        transaction.setSenderAccount(senderAccount);
-        transaction.setRecipientAccount(recipientAccount);
-        return transaction;
 
     }
 

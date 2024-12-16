@@ -7,8 +7,8 @@ public class CurrentAccount extends Account {
     private final double fees;
 
     // constructor
-    public CurrentAccount(double balance) {
-        super(balance, "current account");
+    public CurrentAccount(String clientName, double balance) {
+        super(clientName, balance, "current account");
         minimumBalance = 3000;
         fees = 500;
     }

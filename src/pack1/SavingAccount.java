@@ -11,13 +11,14 @@ public class SavingAccount extends Account {
     }
 
     // constructor
-    public SavingAccount(double balance) {
-        super(balance, "saving account");
+    public SavingAccount(String clientName, double balance) {
+        super(clientName, balance, "saving account");
     }
 
     // implement method
     public void applyInterest() {
-       super.setBalance(super.getBalance() * SavingAccount.interestRate);
+       super.setBalance(super.getBalance() + (super.getBalance() * SavingAccount.interestRate));
         System.out.println("Interest applied. Your current Balance is : " + super.getBalance());
     }
+
 }

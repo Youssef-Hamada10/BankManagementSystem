@@ -10,9 +10,10 @@ public class Client extends User {
     Scanner input = new Scanner(System.in);
 
     // list of account
-    ArrayList<Account> accounts = new ArrayList<>();
+//    ArrayList<Account> accounts = new ArrayList<>();
 
     // attributes
+    private String createdBy;
     private final int ID;
 
     // constructors
@@ -26,6 +27,13 @@ public class Client extends User {
         return ID;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
 
     // implement methods
     public void editPersonalInfo() {
@@ -43,16 +51,19 @@ public class Client extends User {
                     case 1:
                         System.out.println("Enter the new password : ");
                         setPassword(input.nextLine());
+                        System.out.println("Password is changed");
                         valid = true;
                         break;
                     case 2:
                         System.out.println("Enter the new address : ");
                         setAddress(input.nextLine());
+                        System.out.println("Address is changed");
                         valid = true;
                         break;
                     case 3:
                         System.out.println("Enter the new telephone number : ");
                         this.setTelephoneNumber(input.nextLine());
+                        System.out.println("Telephone number is changed");
                         valid = true;
                         break;
                     case 4:
@@ -74,16 +85,17 @@ public class Client extends User {
         System.out.println("--------------");
         System.out.printf("Client ID: %d \n",this.getID());
         System.out.println("Name: " + this.getFirstName() + " " + this.getLastName());
-        System.out.printf("Client address: %s \n",this.getAddress());
-        System.out.printf("Client Telephone Number: %s \n",this.getTelephoneNumber());
-        if(accounts.isEmpty()){
-            System.out.println("You don't have any account yet");
-        } else{
-            int i = 0;
-            for ( ;i < accounts.size(); i++){
-                System.out.printf("[%d]\t\tAccount number: %d\tStatus: %s\tType: %s\tBalance: %f\t Has credit card: %b \n",(i + 1),accounts.get(i).getAccountNumber(),
-                        accounts.get(i).getAccountStatus(),accounts.get(i).getAccountType(),accounts.get(i).getBalance(),accounts.get(i).getHasCreditCard());
+        System.out.printf("Address: %s \n",this.getAddress());
+        System.out.printf("Telephone Number: %s \n",this.getTelephoneNumber());
+        int NOA = 0; // number of account
+        for (Account account : Bank.accounts){
+            if (account.getClientName().equals(this.getFirstName().concat(" "  + this.getLastName()))){
+                System.out.printf("Account number: %d\tStatus: %s\tType: %s\tBalance: %f\tHas credit card: %b \n",account.getAccountNumber(),account.getAccountStatus(),account.getAccountType(),account.getBalance(),account.getHasCreditCard());
+                NOA++;
             }
+        }
+        if (NOA == 0){
+            System.out.println("You don't have any account yet");
         }
     }
 
@@ -92,11 +104,10 @@ public class Client extends User {
         boolean found = false;
         do {
             try {
-                indexOfAccount = 0;
-                for ( ; indexOfAccount < this.accounts.size(); indexOfAccount++){
-                    System.out.printf("[%d]\t\tAccount number: %d\tStatus: %s\tBalance: %f \n",(indexOfAccount + 1),
-                            this.accounts.get(indexOfAccount).getAccountNumber(),this.accounts.get(indexOfAccount).getAccountStatus(),
-                            this.accounts.get(indexOfAccount).getBalance());
+                for (int i = 0; i < Bank.accounts.size(); i++) {
+                    if (Bank.accounts.get(i).getClientName().equals(this.getFirstName().concat(" "  + this.getLastName()))){
+                        System.out.printf("[%d]\t\tAccount number: %d\tStatus: %s\tBalance: %f \n",(i + 1),Bank.accounts.get(i).getAccountNumber(),Bank.accounts.get(i).getAccountStatus(),Bank.accounts.get(i).getBalance());
+                    }
                 }
                 System.out.println("Enter number of the account");
                 indexOfAccount = (input.nextInt() - 1);
@@ -143,75 +154,77 @@ public class Client extends User {
                         break;
                     case 3:
                         showAllAccount();
-                        if (this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
+                        if (Bank.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
                             System.out.println("This account is closed.");
                             return;
                         } else {
-                            this.accounts.get(indexOfAccount).transferMoney();
+                            Bank.accounts.get(indexOfAccount).transferMoney();
                         }
                         break;
                     case 4:
                         showAllAccount();
-                        if (this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
+                        if (Bank.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
                             System.out.println("This account is closed.");
                             return;
                         } else {
-                            this.accounts.get(indexOfAccount).makeDeposit();
+                            Bank.accounts.get(indexOfAccount).makeDeposit();
                         }
                         break;
                     case 5:
                         showAllAccount();
-                        if (this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
+                        if (Bank.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
                             System.out.println("This account is closed.");
                             return;
                         } else {
-                            this.accounts.get(indexOfAccount).withDraw();
+                            Bank.accounts.get(indexOfAccount).withDraw();
                         }
                         break;
                     case 6:
                         showAllAccount();
-                        this.accounts.get(indexOfAccount).showTransactionHistory();
+                        Bank.accounts.get(indexOfAccount).showTransactionHistory();
                         break;
                     case 7:
                         showAllAccount();
-                        if (this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
+                        if (Bank.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
                             System.out.println("This account is closed.");
                             return;
                         } else {
-                            this.accounts.get(indexOfAccount).askForCreditCard();
+                            Bank.accounts.get(indexOfAccount).askForCreditCard();
                         }
                         break;
                     case 8:
                         showAllAccount();
-                        if (this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
+                        if (Bank.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
                             System.out.println("This account is closed.");
                             return;
                         } else {
-                            this.accounts.get(indexOfAccount).payWithCreditCard();
+                            Bank.accounts.get(indexOfAccount).payWithCreditCard();
                         }
                         break;
                     case 9:
                         showAllAccount();
-                        if (this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
+                        if (Bank.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
                             System.out.println("This account is closed.");
                             return;
                         } else {
-                            this.accounts.get(indexOfAccount).disableCreditCard();
+                            Bank.accounts.get(indexOfAccount).disableCreditCard();
                         }
                         break;
                     case 10:
                         showAllAccount();
-                        if (this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
+                        if (Bank.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
                             System.out.println("This account is closed.");
                             return;
                         } else {
-                            this.accounts.get(indexOfAccount).exchangeLoyaltyPoints();
+                            Bank.accounts.get(indexOfAccount).exchangeLoyaltyPoints();
                         }
                         break;
                     case 11:
                         showAllAccount();
-                        if(this.accounts.get(indexOfAccount).getAccountType().equals("saving account") && this.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
-                            ((SavingAccount)this.accounts.get(indexOfAccount)).applyInterest();
+                        if (Bank.accounts.get(indexOfAccount).getAccountType().equals("saving account") && Bank.accounts.get(indexOfAccount).getAccountStatus().equals("active")){
+                            ((SavingAccount) Bank.accounts.get(indexOfAccount)).applyInterest();
+                        } else if (Bank.accounts.get(indexOfAccount).getAccountStatus().equals("closed")){
+                            System.out.println("This account is closed");
                         } else {
                             System.out.println("This account is not saving account");
                         }
