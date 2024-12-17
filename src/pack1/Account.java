@@ -10,6 +10,7 @@ public abstract class Account {
 
     //object from credit card
     CreditCard creditCard = new CreditCard(this.getAccountNumber());
+
     // attributes
     private String clientName;
     private static int accountnum = 11111;

@@ -9,9 +9,6 @@ public class Client extends User {
     // object from Scanner class
     Scanner input = new Scanner(System.in);
 
-    // list of account
-//    ArrayList<Account> accounts = new ArrayList<>();
-
     // attributes
     private String createdBy;
     private final int ID;
