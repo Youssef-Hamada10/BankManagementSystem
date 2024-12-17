@@ -114,7 +114,7 @@ public class Bank {
                             .append(emp.getTelephoneNumber()).append(",")
                             .append(emp.getGraduatedCollege()).append(",")
                             .append(emp.getTotalGrade()).append(",")
-                            .append(String.valueOf(emp.getYearOfGraduation())).append(",");
+                            .append(String.valueOf(emp.getYearOfGraduation())).append(",\n");
                 }
             } else if (type.equals("client")) {
                 for (Client cli : Bank.clients){
@@ -125,7 +125,7 @@ public class Bank {
                             .append(cli.getPassword()).append(",")
                             .append(cli.getAddress()).append(",")
                             .append(cli.getTelephoneNumber()).append(",")
-                            .append(cli.getCreatedBy()).append(",");
+                            .append(cli.getCreatedBy()).append(",\n");
                 }
             } else if (type.equals("account")) {
                 for (Account acc : Bank.accounts){
@@ -134,7 +134,7 @@ public class Bank {
                             .append(acc.getAccountStatus()).append(",")
                             .append(acc.getAccountType()).append(",")
                             .append(String.valueOf(acc.getBalance())).append(",")
-                            .append(String.valueOf(acc.getHasCreditCard())).append(",");
+                            .append(String.valueOf(acc.getHasCreditCard())).append(",\n");
                 }
             } else if (type.equals("transaction")){
                 for (Transaction trans : Bank.transactions){
@@ -145,28 +145,28 @@ public class Bank {
                                 .append(String.valueOf(trans.getAmount())).append(",")
                                 .append("transferTransaction").append(",")
                                 .append(String.valueOf(((TransferTransaction)trans).getSenderAccount())).append(",")
-                                .append(String.valueOf(((TransferTransaction)trans).getRecipientAccount())).append(",");
+                                .append(String.valueOf(((TransferTransaction)trans).getRecipientAccount())).append(",\n");
                     } else if (trans instanceof WithDrawTransaction) {
                         writer.append(String.valueOf(trans.getId())).append(",")
                                 .append(trans.getClientName()).append(",")
                                 .append(trans.getTransactionDate()).append(",")
                                 .append(String.valueOf(trans.getAmount())).append(",")
                                 .append("withdrawTransaction").append(",")
-                                .append(String.valueOf(((WithDrawTransaction)trans).getAccountNumber())).append(",");
+                                .append(String.valueOf(((WithDrawTransaction)trans).getAccountNumber())).append(",\n");
                     } else if (trans instanceof DepositTransaction) {
                         writer.append(String.valueOf(trans.getId())).append(",")
                                 .append(trans.getClientName()).append(",")
                                 .append(trans.getTransactionDate()).append(",")
                                 .append(String.valueOf(trans.getAmount())).append(",")
                                 .append("depositTransaction").append(",")
-                                .append(String.valueOf(((DepositTransaction)trans).getAccountNumber())).append(",");
+                                .append(String.valueOf(((DepositTransaction)trans).getAccountNumber())).append(",\n");
                     } else {
                         writer.append(String.valueOf(trans.getId())).append(",")
                                 .append(trans.getClientName()).append(",")
                                 .append(trans.getTransactionDate()).append(",")
                                 .append(String.valueOf(trans.getAmount())).append(",")
                                 .append("creditCardTransaction").append(",")
-                                .append(String.valueOf(((CreditCardTransaction)trans).getAccountNumber())).append(",");
+                                .append(String.valueOf(((CreditCardTransaction)trans).getAccountNumber())).append(",\n");
                     }
                 }
             }
