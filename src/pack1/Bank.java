@@ -109,11 +109,11 @@ public class Bank {
     private void writeToFile(String fileName, String type){
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             if (type.equals("employee")){
-                writer.write("ID,FirstName,LastName,Username,password,Address,TelephoneNumber,GraduatedCollege,TotalGrade,YearOfGraduation");
+                writer.write("ID,FirstName,LastName,Username,Password,Address,Position,TelephoneNumber,GraduatedCollege,TotalGrade,YearOfGraduation");
                 writer.newLine();
                 for (Employee emp : Bank.employees){
                     writer.write(emp.getID() + "," + emp.getFirstName() + "," + emp.getLastName() + "," +
-                            emp.getUsername() + "," + emp.getPassword() + "," + emp.getAddress() + "," +
+                            emp.getUsername() + "," + emp.getPassword() + "," + emp.getAddress() + "," + emp.getPosition() + "," +
                             emp.getTelephoneNumber() + "," + emp.getGraduatedCollege() + "," + emp.getTotalGrade() + "," + emp.getYearOfGraduation());
                     writer.newLine();
                 }
@@ -184,10 +184,11 @@ public class Bank {
                     emp.setUsername(values[3]);
                     emp.setPassword(values[4]);
                     emp.setAddress(values[5]);
-                    emp.setTelephoneNumber(values[6]);
-                    emp.setGraduatedCollege(values[7]);
-                    emp.setTotalGrade(values[8]);
-                    emp.setYearOfGraduation(Integer.parseInt(values[9]));
+                    emp.setPosition(values[6]);
+                    emp.setTelephoneNumber(values[7]);
+                    emp.setGraduatedCollege(values[8]);
+                    emp.setTotalGrade(values[9]);
+                    emp.setYearOfGraduation(Integer.parseInt(values[10]));
                     Bank.employees.add(emp);
                 }
             } else if (type.equals("client")) {

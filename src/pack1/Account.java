@@ -100,41 +100,39 @@ public abstract class Account {
                         break;
                     }
                 }
-
                 if (!found) {
                     System.out.println("the recipient account not found ");
-                    return;
-                }
-                boolean valid = false;
-                do {
-                    try {
-                        System.out.println("Enter amount to transfer :");
-                        double amount = input.nextDouble();
-                        input.nextLine();
-                        valid = true;
-                        if (this.getBalance() < amount) {
-                            System.out.println("You don't hava enough money ");
-                            return;
-                        } else {
-
-                            for (int accountnum = 0; accountnum < Bank.accounts.size(); accountnum++) {
-                                if (Bank.accounts.get(accountnum).getAccountNumber() == recipientAccount) {
-                                    Bank.accounts.get(accountnum).setBalance(Bank.accounts.get(accountnum).getBalance() + amount);
-                                    this.setBalance(this.getBalance() - amount);
-                                    System.out.printf("The remaining amount is : %f \n", this.getBalance());
+                } else {
+                    boolean valid = false;
+                    do {
+                        try {
+                            System.out.println("Enter amount to transfer :");
+                            double amount = input.nextDouble();
+                            input.nextLine();
+                            valid = true;
+                            if (this.getBalance() < amount) {
+                                System.out.println("You don't hava enough money ");
+                                return;
+                            } else {
+                                for (int accountnum = 0; accountnum < Bank.accounts.size(); accountnum++) {
+                                    if (Bank.accounts.get(accountnum).getAccountNumber() == recipientAccount) {
+                                        Bank.accounts.get(accountnum).setBalance(Bank.accounts.get(accountnum).getBalance() + amount);
+                                        this.setBalance(this.getBalance() - amount);
+                                        System.out.printf("The remaining amount is : %f \n", this.getBalance());
+                                    }
                                 }
                             }
+                            // add to transaction list
+                            TransferTransaction.addTransactionToBank((this.getClientName()),amount, this.getAccountNumber(), recipientAccount);
+                            isTransfered = true;
+                        } catch (InputMismatchException e) {
+                            System.out.println("Invalid input.");
+                            input.nextLine(); // Clear the input buffer
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
                         }
-                        // add to transaction list
-                        TransferTransaction.addTransactionToBank((this.getClientName()),amount, this.getAccountNumber(), recipientAccount);
-                        isTransfered = true;
-                    } catch (InputMismatchException e) {
-                        System.out.println("Invalid input.");
-                        input.nextLine(); // Clear the input buffer
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
-                } while (!valid);
+                    } while (!valid);
+                }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input.");
                 input.nextLine(); // Clear the input buffer
@@ -317,4 +315,5 @@ public abstract class Account {
                 System.out.println("There is no transaction yet");
             }
     }
+
 }
