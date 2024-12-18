@@ -18,10 +18,10 @@ public class Bank {
     public static ArrayList<Transaction> transactions = new ArrayList<>();
 
     // files path
-    String EmployeePath = "D:\\projects\\intelij\\BankManagementSystem\\src\\files\\Employee.csv";
-    String ClientPath = "D:\\projects\\intelij\\BankManagementSystem\\src\\files\\Client.csv";
-    String TransactionPath = "D:\\projects\\intelij\\BankManagementSystem\\src\\files\\Transaction.csv";
-    String AccountPath = "D:\\projects\\intelij\\BankManagementSystem\\src\\files\\Account.csv";
+    String EmployeePath = "D:\\projects\\intellij\\BankManagementSystem\\src\\files\\Employee.csv";
+    String ClientPath = "D:\\projects\\intellij\\BankManagementSystem\\src\\files\\Client.csv";
+    String TransactionPath = "D:\\projects\\intellij\\BankManagementSystem\\src\\files\\Transaction.csv";
+    String AccountPath = "D:\\projects\\intellij\\BankManagementSystem\\src\\files\\Account.csv";
 
 
 
