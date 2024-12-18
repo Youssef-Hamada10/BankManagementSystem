@@ -1,5 +1,5 @@
 Name,AccountNumber,Status,Type,Balance,HasCreditCard
-laila ali,11111,active,saving account,7000,FALSE
+laila ali,11111,active,saving account,27000,FALSE
 khaled omar,11112,active,current account,30000,FALSE
 karim abdallah,11113,active,saving account,10000,FALSE
 noor mahmoud,11114,closed,current account,20000,TRUE
