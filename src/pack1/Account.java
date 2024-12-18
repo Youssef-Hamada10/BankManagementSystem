@@ -221,6 +221,7 @@ public abstract class Account {
                 } while (!valid);
                if (this.creditCard.getRemainingLimit() >= amount) {
                    this.creditCard.setRemainingLimit(this.creditCard.getRemainingLimit() - amount);
+                   this.setBalance(this.getBalance() - amount);
                    System.out.printf("The remaining balance is : %f \n", this.creditCard.getRemainingLimit());
                    this.creditCard.setLoyaltyPoints(this.creditCard.getLoyaltyPoints() + 5);    // handle loyalty points
                } else {
@@ -236,6 +237,7 @@ public abstract class Account {
     public void disableCreditCard() {
         System.out.println("---------------");
         this.creditCard.setStatus("disabled");
+        this.setHasCreditCard(false);
         System.out.println("Your credit card is disabled");
     }
 
@@ -253,13 +255,18 @@ public abstract class Account {
 
     public void askForCreditCard() {
         System.out.println("--------------");
-        if (this.getHasCreditCard()){
-            System.out.println("You already have one");
+        if(this.getBalance() >= 20000){
+            if (this.getHasCreditCard()){
+                System.out.println("You already have one");
+            } else {
+                this.setHasCreditCard(true);
+                this.creditCard.setStatus("active");
+                System.out.println("You now have a credit card with amount of 20000");
+            }
         } else {
-            this.setHasCreditCard(true);
-            this.creditCard.setStatus("active");
-            System.out.println("You now have a credit card with amount of 20000");
+            System.out.println("You do not have enough money.");
         }
+
     }
 
     public void showTransactionHistory() {
