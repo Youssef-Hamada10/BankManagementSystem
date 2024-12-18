@@ -222,7 +222,7 @@ public abstract class Account {
                if (this.creditCard.getRemainingLimit() >= amount) {
                    this.creditCard.setRemainingLimit(this.creditCard.getRemainingLimit() - amount);
                    this.setBalance(this.getBalance() - amount);
-                   System.out.printf("The remaining balance is : %f \n", this.creditCard.getRemainingLimit());
+                   System.out.printf("The remaining balance is : %f \n", this.getBalance());
                    this.creditCard.setLoyaltyPoints(this.creditCard.getLoyaltyPoints() + 5);    // handle loyalty points
                } else {
                    System.out.println("You don't have enough money");
