@@ -12,6 +12,11 @@ public class CurrentAccount extends Account {
         minimumBalance = 3000;
         fees = 500;
     }
+    public CurrentAccount(){
+        super();
+        minimumBalance = 3000;
+        fees = 500;
+    }
 
     // getters and setters
     public double getMinimumBalance() {

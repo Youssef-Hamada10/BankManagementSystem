@@ -15,6 +15,10 @@ public class SavingAccount extends Account {
         super(clientName, balance, "saving account");
     }
 
+    public SavingAccount(){
+        super();
+    }
+
     // implement method
     public void applyInterest() {
        super.setBalance(super.getBalance() + (super.getBalance() * SavingAccount.interestRate));

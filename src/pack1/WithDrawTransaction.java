@@ -3,12 +3,16 @@ package pack1;
 public class WithDrawTransaction extends Transaction{
 
     //attribute
-    private static final String transactionType = "WithDrawTransaction";
+    private static String transactionType = "WithDrawTransaction";
     private int accountNumber;
 
     //getters and setters
-    public static String getTransactionType() {
+    public String getTransactionType() {
         return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        WithDrawTransaction.transactionType = transactionType;
     }
 
     public int getAccountNumber() {

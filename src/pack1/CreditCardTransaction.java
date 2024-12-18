@@ -2,12 +2,16 @@ package pack1;
 
 public class CreditCardTransaction extends Transaction{
     //attribute
-    private static final String transactionType = "CreditCardTransaction";
+    private static String transactionType = "CreditCardTransaction";
     private int accountNumber;
 
     //getters and setters
-    public static String getTransactionType() {
+    public String getTransactionType() {
         return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        CreditCardTransaction.transactionType = transactionType;
     }
 
     public int getAccountNumber() {

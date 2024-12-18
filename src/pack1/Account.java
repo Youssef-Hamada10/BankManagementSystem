@@ -14,7 +14,7 @@ public abstract class Account {
     // attributes
     private String clientName;
     private static int accountnum = 11111;
-    private final int accountNumber;
+    private int accountNumber;
     private double balance;
     private String accountType;
     private String accountStatus;
@@ -30,6 +30,10 @@ public abstract class Account {
         this.balance = balance;
     }
 
+    public Account(){
+        Account.accountnum++;
+    }
+
     // getters and setters
     public String getClientName() {
         return clientName;
@@ -41,6 +45,10 @@ public abstract class Account {
 
     public int getAccountNumber() {
         return accountNumber;
+    }
+
+    public void setAccountNumber(int accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public double getBalance() {
@@ -279,21 +287,21 @@ public abstract class Account {
                 System.out.println("Error......");
             }
             if (valid) {
-                System.out.printf("Transaction id: %d\t", Bank.transactions.get(i).getId());
-                System.out.printf("Date: %s\t", Bank.transactions.get(i).getTransactionDate());
-                System.out.printf("Amount: %f\t", Bank.transactions.get(i).getAmount());
+                System.out.printf("Transaction id: %d \t ", Bank.transactions.get(i).getId());
+                System.out.printf("Date: %s \t ", Bank.transactions.get(i).getTransactionDate());
+                System.out.printf("Amount: %f \t ", Bank.transactions.get(i).getAmount());
                 if (Bank.transactions.get(i) instanceof WithDrawTransaction) {
-                    System.out.printf("Transaction type: %s\t", WithDrawTransaction.getTransactionType());
-                    System.out.printf("Account number: %d\n", ((WithDrawTransaction) Bank.transactions.get(i)).getAccountNumber());
+                    System.out.printf("Transaction type: %s \t ", ((WithDrawTransaction) Bank.transactions.get(i)).getTransactionType());
+                    System.out.printf("Account number: %d \n", ((WithDrawTransaction) Bank.transactions.get(i)).getAccountNumber());
                 } else if (Bank.transactions.get(i) instanceof TransferTransaction) {
-                    System.out.printf("Transaction type: %s\t", TransferTransaction.getTransactionType());
-                    System.out.printf("Sender Account number: %d\t", ((TransferTransaction) Bank.transactions.get(i)).getSenderAccount());
-                    System.out.printf("Recipient Account number: %d\n", ((TransferTransaction) Bank.transactions.get(i)).getRecipientAccount());
+                    System.out.printf("Transaction type: %s \t ", ((TransferTransaction) Bank.transactions.get(i)).getTransactionType());
+                    System.out.printf("Sender Account number: %d \t ", ((TransferTransaction) Bank.transactions.get(i)).getSenderAccount());
+                    System.out.printf("Recipient Account number: %d \n", ((TransferTransaction) Bank.transactions.get(i)).getRecipientAccount());
                 } else if (Bank.transactions.get(i) instanceof DepositTransaction) {
-                    System.out.printf("Transaction type: %s\t", DepositTransaction.getTransactionType());
-                    System.out.printf("Account number: %d\n", ((DepositTransaction) Bank.transactions.get(i)).getAccountNumber());
+                    System.out.printf("Transaction type: %s \t ", ((DepositTransaction) Bank.transactions.get(i)).getTransactionType());
+                    System.out.printf("Account number: %d \n", ((DepositTransaction) Bank.transactions.get(i)).getAccountNumber());
                 } else {
-                    System.out.printf("Transaction type: %s\n", CreditCardTransaction.getTransactionType());
+                    System.out.printf("Transaction type: %s \n", ((CreditCardTransaction) Bank.transactions.get(i)).getTransactionType());
                 }
                 counter++;
             }

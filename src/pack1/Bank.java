@@ -1,10 +1,13 @@
 package pack1;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 
 public class Bank {
     Scanner input = new Scanner(System.in);
@@ -23,9 +26,12 @@ public class Bank {
 
 
     public Bank() {
-        System.out.println("BANK MANAGEMENT SYSTEM");
+        System.out.println("\t\t\tBANK MANAGEMENT SYSTEM");
 
-
+        readFromFile(EmployeePath, "employee");
+        readFromFile(ClientPath, "client");
+        readFromFile(AccountPath, "account");
+        readFromFile(TransactionPath, "transaction");
 
         logIn();
 
@@ -100,73 +106,58 @@ public class Bank {
         }
     }
 
-
     private void writeToFile(String fileName, String type){
-        try (FileWriter writer = new FileWriter(fileName)) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             if (type.equals("employee")){
+                writer.write("ID,FirstName,LastName,Username,password,Address,TelephoneNumber,GraduatedCollege,TotalGrade,YearOfGraduation");
+                writer.newLine();
                 for (Employee emp : Bank.employees){
-                    writer.append(String.valueOf(emp.getID())).append(",")
-                            .append(emp.getFirstName()).append(",")
-                            .append(emp.getLastName()).append(",")
-                            .append(emp.getUsername()).append(",")
-                            .append(emp.getPassword()).append(",")
-                            .append(emp.getAddress()).append(",")
-                            .append(emp.getTelephoneNumber()).append(",")
-                            .append(emp.getGraduatedCollege()).append(",")
-                            .append(emp.getTotalGrade()).append(",")
-                            .append(String.valueOf(emp.getYearOfGraduation())).append(",\n");
+                    writer.write(emp.getID() + "," + emp.getFirstName() + "," + emp.getLastName() + "," +
+                            emp.getUsername() + "," + emp.getPassword() + "," + emp.getAddress() + "," +
+                            emp.getTelephoneNumber() + "," + emp.getGraduatedCollege() + "," + emp.getTotalGrade() + "," + emp.getYearOfGraduation());
+                    writer.newLine();
                 }
             } else if (type.equals("client")) {
+                writer.write("ID,FirstName,LastName,UserName,Password,Address,TelephoneNumber,CreatedBy");
+                writer.newLine();
                 for (Client cli : Bank.clients){
-                    writer.append(String.valueOf(cli.getID())).append(",")
-                            .append(cli.getFirstName()).append(",")
-                            .append(cli.getLastName()).append(",")
-                            .append(cli.getUsername()).append(",")
-                            .append(cli.getPassword()).append(",")
-                            .append(cli.getAddress()).append(",")
-                            .append(cli.getTelephoneNumber()).append(",")
-                            .append(cli.getCreatedBy()).append(",\n");
+                    writer.write(cli.getID() + "," + cli.getFirstName() + "," + cli.getLastName() + "," +
+                           cli.getUsername() + "," + cli.getPassword() + "," + cli.getAddress() + "," +
+                            cli.getTelephoneNumber() + "," + cli.getCreatedBy());
+                    writer.newLine();
                 }
             } else if (type.equals("account")) {
+                writer.write("Name,AccountNumber,Status,Type,Balance,HasCreditCard");
+                writer.newLine();
                 for (Account acc : Bank.accounts){
-                    writer.append(acc.getClientName()).append(",")
-                            .append(String.valueOf(acc.getAccountNumber())).append(",")
-                            .append(acc.getAccountStatus()).append(",")
-                            .append(acc.getAccountType()).append(",")
-                            .append(String.valueOf(acc.getBalance())).append(",")
-                            .append(String.valueOf(acc.getHasCreditCard())).append(",\n");
+                    writer.write(acc.getClientName() + "," + acc.getAccountNumber() + "," + acc.getAccountStatus() + "," +
+                            acc.getAccountType() + "," + acc.getBalance() + "," + acc.getHasCreditCard());
+                    writer.newLine();
                 }
             } else if (type.equals("transaction")){
+                writer.write("Type,ID,Name,Date,Amount,AccountNumber,RecipientAccount");
+                writer.newLine();
                 for (Transaction trans : Bank.transactions){
                     if (trans instanceof TransferTransaction){
-                        writer.append(String.valueOf(trans.getId())).append(",")
-                                .append(trans.getClientName()).append(",")
-                                .append(trans.getTransactionDate()).append(",")
-                                .append(String.valueOf(trans.getAmount())).append(",")
-                                .append("transferTransaction").append(",")
-                                .append(String.valueOf(((TransferTransaction)trans).getSenderAccount())).append(",")
-                                .append(String.valueOf(((TransferTransaction)trans).getRecipientAccount())).append(",\n");
+                        writer.write("transferTransaction" + "," + trans.getId() + "," + trans.getClientName() + "," +
+                                trans.getTransactionDate() + "," + trans.getAmount() + "," + ((TransferTransaction)trans).getSenderAccount() + "," +
+                               ((TransferTransaction)trans).getRecipientAccount() + ",");
+                        writer.newLine();
                     } else if (trans instanceof WithDrawTransaction) {
-                        writer.append(String.valueOf(trans.getId())).append(",")
-                                .append(trans.getClientName()).append(",")
-                                .append(trans.getTransactionDate()).append(",")
-                                .append(String.valueOf(trans.getAmount())).append(",")
-                                .append("withdrawTransaction").append(",")
-                                .append(String.valueOf(((WithDrawTransaction)trans).getAccountNumber())).append(",\n");
+                        writer.write("withdrawTransaction" + "," +
+                               trans.getId() + "," + trans.getClientName() + "," + trans.getTransactionDate() + "," +
+                                trans.getAmount() + "," + ((WithDrawTransaction)trans).getAccountNumber() +"," );
+                        writer.newLine();
                     } else if (trans instanceof DepositTransaction) {
-                        writer.append(String.valueOf(trans.getId())).append(",")
-                                .append(trans.getClientName()).append(",")
-                                .append(trans.getTransactionDate()).append(",")
-                                .append(String.valueOf(trans.getAmount())).append(",")
-                                .append("depositTransaction").append(",")
-                                .append(String.valueOf(((DepositTransaction)trans).getAccountNumber())).append(",\n");
+                        writer.write("depositTransaction" + "," +
+                                trans.getId() + "," + trans.getClientName() + "," + trans.getTransactionDate() + "," +
+                                trans.getAmount() + "," + ((DepositTransaction)trans).getAccountNumber() +"," );
+                        writer.newLine();
                     } else {
-                        writer.append(String.valueOf(trans.getId())).append(",")
-                                .append(trans.getClientName()).append(",")
-                                .append(trans.getTransactionDate()).append(",")
-                                .append(String.valueOf(trans.getAmount())).append(",")
-                                .append("creditCardTransaction").append(",")
-                                .append(String.valueOf(((CreditCardTransaction)trans).getAccountNumber())).append(",\n");
+                        writer.write("creditCardTransaction" + "," +
+                                trans.getId() + "," + trans.getClientName() + "," + trans.getTransactionDate() + "," +
+                                trans.getAmount() + "," + ((CreditCardTransaction)trans).getAccountNumber() +"," );
+                        writer.newLine();
                     }
                 }
             }
@@ -174,8 +165,115 @@ public class Bank {
             System.out.println(e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
+
+    private void readFromFile(String fileName, String type){
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            br.readLine();  // Skip the header line
+            if (type.equals("employee")){
+                while ((line = br.readLine()) != null){
+                    String[] values = line.split(",");
+                    Employee emp = new Employee();
+                    emp.setID(Integer.parseInt(values[0]));
+                    emp.setFirstName(values[1]);
+                    emp.setLastName(values[2]);
+                    emp.setUsername(values[3]);
+                    emp.setPassword(values[4]);
+                    emp.setAddress(values[5]);
+                    emp.setTelephoneNumber(values[6]);
+                    emp.setGraduatedCollege(values[7]);
+                    emp.setTotalGrade(values[8]);
+                    emp.setYearOfGraduation(Integer.parseInt(values[9]));
+                    Bank.employees.add(emp);
+                }
+            } else if (type.equals("client")) {
+                while ((line = br.readLine()) != null){
+                    String[] values = line.split(",");
+                    Client cli = new Client();
+                    cli.setID(Integer.parseInt(values[0]));
+                    cli.setFirstName(values[1]);
+                    cli.setLastName(values[2]);
+                    cli.setUsername(values[3]);
+                    cli.setPassword(values[4]);
+                    cli.setAddress(values[5]);
+                    cli.setTelephoneNumber(values[6]);
+                    cli.setCreatedBy(values[7]);
+                    Bank.clients.add(cli);
+                }
+            } else if (type.equals("account")) {
+                while ((line = br.readLine()) != null){
+                    String[] values = line.split(",");
+                    if(values[3].equals("saving account")){
+                        SavingAccount acc = new SavingAccount();
+                        acc.setClientName(values[0]);
+                        acc.setAccountNumber(Integer.parseInt(values[1]));
+                        acc.setAccountStatus(values[2]);
+                        acc.setAccountType(values[3]);
+                        acc.setBalance(Double.parseDouble(values[4]));
+                        acc.setHasCreditCard(Boolean.parseBoolean(values[5]));
+                        Bank.accounts.add(acc);
+                    } else {
+                        CurrentAccount acc = new CurrentAccount();
+                        acc.setClientName(values[0]);
+                        acc.setAccountNumber(Integer.parseInt(values[1]));
+                        acc.setAccountStatus(values[2]);
+                        acc.setAccountType(values[3]);
+                        acc.setBalance(Double.parseDouble(values[4]));
+                        acc.setHasCreditCard(Boolean.parseBoolean(values[5]));
+                        Bank.accounts.add(acc);
+                    }
+                }
+            } else if (type.equals("transaction")){
+                while ((line = br.readLine()) != null){
+                    String[] values = line.split(",");
+                    if (values[0].equals("withDrawTransaction")){
+                        WithDrawTransaction trans = new WithDrawTransaction();
+                        trans.setTransactionType(values[0]);
+                        trans.setId(Integer.parseInt(values[1]));
+                        trans.setClientName(values[2]);
+                        trans.setTransactionDate(values[3]);
+                        trans.setAmount(Double.parseDouble(values[4]));
+                        trans.setAccountNumber(Integer.parseInt(values[5]));
+                        Bank.transactions.add(trans);
+                    } else if (values[0].equals("transferTransaction")) {
+                        TransferTransaction trans = new TransferTransaction();
+                        trans.setTransactionType(values[0]);
+                        trans.setId(Integer.parseInt(values[1]));
+                        trans.setClientName(values[2]);
+                        trans.setTransactionDate(values[3]);
+                        trans.setAmount(Double.parseDouble(values[4]));
+                        trans.setSenderAccount(Integer.parseInt(values[5]));
+                        trans.setRecipientAccount(Integer.parseInt(values[6]));
+                        Bank.transactions.add(trans);
+                    } else if (values[0].equals("depositTransaction")) {
+                        DepositTransaction trans = new DepositTransaction();
+                        trans.setTransactionType(values[0]);
+                        trans.setId(Integer.parseInt(values[1]));
+                        trans.setClientName(values[2]);
+                        trans.setTransactionDate(values[3]);
+                        trans.setAmount(Double.parseDouble(values[4]));
+                        trans.setAccountNumber(Integer.parseInt(values[5]));
+                        Bank.transactions.add(trans);
+                    } else {
+                        CreditCardTransaction trans = new CreditCardTransaction();
+                        trans.setTransactionType(values[0]);
+                        trans.setId(Integer.parseInt(values[1]));
+                        trans.setClientName(values[2]);
+                        trans.setTransactionDate(values[3]);
+                        trans.setAmount(Double.parseDouble(values[4]));
+                        trans.setAccountNumber(Integer.parseInt(values[5]));
+                        Bank.transactions.add(trans);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+   }
 
 }
 

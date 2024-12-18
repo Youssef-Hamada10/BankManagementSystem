@@ -1,2 +1,3 @@
-1,maram,ali,maram-ali,123,shubra,1014900153,ainShams,good,2022
-2,laila,ali,laila-ali,456,helwan,1244415678,banha,excellent,2015
+ID,FirstName,LastName,Username,password,Address,TelephoneNumber,GraduatedCollege,TotalGrade,YearOfGraduation
+1,maram,ali,maram-ali,123456,shubra,1014900153,ainShams,excellent,2027
+2,omar,ahmed,omar-ahmed,123,helwan,1288812397,helwan,excellent,2012

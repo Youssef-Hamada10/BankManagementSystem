@@ -10,7 +10,7 @@ public class Employee extends User {
     Scanner input = new Scanner(System.in);
 
     // attributes
-    private final int ID;
+    private int ID;
     private String position;
     private String graduatedCollege;
     private int yearOfGraduation;
@@ -24,6 +24,10 @@ public class Employee extends User {
     // getters and setters
     public int getID() {
         return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getPosition() {
@@ -303,7 +307,7 @@ public class Employee extends User {
                             Bank.clients.get(i).getAddress(), Bank.clients.get(i).getTelephoneNumber());
                     for (int j = 0; j < Bank.accounts.size(); j++) {
                         if (Bank.accounts.get(j).getClientName().equalsIgnoreCase(Name)){
-                            System.out.printf("Account number: %d \t Status: %s \t Type: %s \t Balance: %f",Bank.accounts.get(j).getAccountNumber(),Bank.accounts.get(j).getAccountStatus(),Bank.accounts.get(j).getAccountType(),Bank.accounts.get(j).getBalance());
+                            System.out.printf("Account number: %d \t Status: %s \t Type: %s \t Balance: %f \n",Bank.accounts.get(j).getAccountNumber(),Bank.accounts.get(j).getAccountStatus(),Bank.accounts.get(j).getAccountType(),Bank.accounts.get(j).getBalance());
                         }
                     }
                 }
@@ -321,7 +325,7 @@ public class Employee extends User {
         for (int i = 0; i < Bank.accounts.size(); i++) {
             if (Bank.accounts.get(i).getAccountNumber() == accountNumber){
                 found = true;
-                System.out.printf("Name: %s\tStatus: %s\tBalance: %f \n",Bank.accounts.get(i).getClientName(),Bank.accounts.get(i).getAccountStatus(),Bank.accounts.get(i).getBalance());
+                System.out.printf("Name: %s \t Status: %s \t Balance: %f \n",Bank.accounts.get(i).getClientName(),Bank.accounts.get(i).getAccountStatus(),Bank.accounts.get(i).getBalance());
                 break;
             }
         }

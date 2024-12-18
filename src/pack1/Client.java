@@ -11,7 +11,7 @@ public class Client extends User {
 
     // attributes
     private String createdBy;
-    private final int ID;
+    private int ID;
 
     // constructors
     public Client() {
@@ -22,6 +22,10 @@ public class Client extends User {
     // getters and setters
     public int getID() {
         return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getCreatedBy() {

@@ -8,7 +8,7 @@ public abstract class Transaction {
     // attributes
     private String clientName;
     private static int transnum = 1;
-    private final int Id;
+    private int Id;
     private double amount;
     private String transactionDate;
 
@@ -21,6 +21,7 @@ public abstract class Transaction {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         String date = now.format(formatter);
+
         transactionDate = date;
     }
 
@@ -37,6 +38,10 @@ public abstract class Transaction {
         return Id;
     }
 
+    public void setId(int id) {
+        Id = id;
+    }
+
     public double getAmount() {
         return amount;
     }
@@ -49,4 +54,7 @@ public abstract class Transaction {
         return transactionDate;
     }
 
+    public void setTransactionDate(String transactionDate) {
+        this.transactionDate = transactionDate;
+    }
 }

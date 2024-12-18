@@ -3,13 +3,17 @@ package pack1;
 public class TransferTransaction extends Transaction{
 
     // attribute
-    private static final String transactionType = "TransferTransaction";
+    private static String transactionType = "TransferTransaction";
     private int senderAccount;
     private int recipientAccount;
 
     // getters and setters
-    public static String getTransactionType() {
+    public String getTransactionType() {
         return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        TransferTransaction.transactionType = transactionType;
     }
 
     public int getSenderAccount() {
