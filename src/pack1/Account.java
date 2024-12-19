@@ -245,8 +245,8 @@ public abstract class Account {
             System.out.println("You don not have loyalty point");
         } else {
             System.out.printf("Your loyalty points is : %d \n",this.creditCard.getLoyaltyPoints());
-            double amount = this.creditCard.getLoyaltyPoints() * 2.0;
-            System.out.printf("Your balance will increase by : %f \n",amount);
+            int amount = this.creditCard.getLoyaltyPoints() * 2;
+            System.out.printf("Your balance will increase by : %d \n",amount);
             this.creditCard.setRemainingLimit(this.creditCard.getRemainingLimit() + amount);
         }
     }

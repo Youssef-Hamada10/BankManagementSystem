@@ -165,7 +165,7 @@ public class Admin {
                     if(Bank.transactions.get(i).getTransactionDate().contains(date)){
                         System.out.printf("Transaction id: %-8d",Bank.transactions.get(i).getId());
                         System.out.printf("Date: %-18s",Bank.transactions.get(i).getTransactionDate());
-                        System.out.printf("Amount: %-18f",Bank.transactions.get(i).getAmount());
+                        System.out.printf("Amount: %f \t",Bank.transactions.get(i).getAmount());
                         if(Bank.transactions.get(i) instanceof WithDrawTransaction){
                             System.out.printf("Transaction type: %-25s",((WithDrawTransaction) Bank.transactions.get(i)).getTransactionType());
                             System.out.printf("Account number: %-10d \n",((WithDrawTransaction) Bank.transactions.get(i)).getAccountNumber());
@@ -209,7 +209,7 @@ public class Admin {
                     if(Bank.transactions.get(i).getClientName().equals(clientName)){
                         System.out.printf("Transaction id: %-6d",Bank.transactions.get(i).getId());
                         System.out.printf("Date: %-20s",Bank.transactions.get(i).getTransactionDate());
-                        System.out.printf("Amount: %-8f",Bank.transactions.get(i).getAmount());
+                        System.out.printf("Amount: %f \t",Bank.transactions.get(i).getAmount());
                         if(Bank.transactions.get(i) instanceof WithDrawTransaction){
                             System.out.printf("Transaction type: %-25s",((WithDrawTransaction) Bank.transactions.get(i)).getTransactionType());
                             System.out.printf("Account number: %-10d \n",((WithDrawTransaction) Bank.transactions.get(i)).getAccountNumber());
@@ -261,7 +261,7 @@ public class Admin {
                             if(Bank.transactions.get(i).getClientName().equals(clientName)){
                                 System.out.printf("Transaction id: %-6d",Bank.transactions.get(i).getId());
                                 System.out.printf("Date: %-20s",Bank.transactions.get(i).getTransactionDate());
-                                System.out.printf("Amount: %-10f",Bank.transactions.get(i).getAmount());
+                                System.out.printf("Amount: %f \t",Bank.transactions.get(i).getAmount());
                                 if(Bank.transactions.get(i) instanceof WithDrawTransaction){
                                     System.out.printf("Transaction type: %-25s",((WithDrawTransaction) Bank.transactions.get(i)).getTransactionType());
                                     System.out.printf("Account number: %-10d \n",((WithDrawTransaction) Bank.transactions.get(i)).getAccountNumber());
