@@ -107,7 +107,7 @@ public class Client extends User {
             try {
                 for (int i = 0; i < Bank.accounts.size(); i++) {
                     if (Bank.accounts.get(i).getClientName().equals(this.getFirstName().concat(" "  + this.getLastName()))){
-                        System.out.printf("[%d]\t\tAccount number: %d\tStatus: %s\tBalance: %f \n",(i + 1),Bank.accounts.get(i).getAccountNumber(),Bank.accounts.get(i).getAccountStatus(),Bank.accounts.get(i).getBalance());
+                        System.out.printf("[%d]\t\tAccount number: %-10d Status: %-10s Balance: %-10f \n",(i + 1),Bank.accounts.get(i).getAccountNumber(),Bank.accounts.get(i).getAccountStatus(),Bank.accounts.get(i).getBalance());
                     }
                 }
                 System.out.println("Enter number of the account");

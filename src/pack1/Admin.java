@@ -62,40 +62,19 @@ public class Admin {
 
     private static void displayAllEmployees(){
         System.out.println("--------------");
-        if (Bank.employees.isEmpty()){
-            System.out.println("there is no employees yet");
-            return;
-        } else {
-            for(int i = 0; i < Bank.employees.size(); i++){
-                System.out.printf("[%d]\t\tID: %d\tName: %s %s \n",(i + 1),Bank.employees.get(i).getID(),Bank.employees.get(i).getFirstName(),Bank.employees.get(i).getLastName());
-            }
-            System.out.println("-------------");
-
-            boolean valid = false;   // for check choice
-            do{
-                try {
-                    System.out.println("Enter number of the employee to show his details");
-                    int numOfEmployee = input.nextInt();
-                    input.nextLine();
-                    System.out.println("-------------");
-                    System.out.printf("ID: %d \n",Bank.employees.get(numOfEmployee - 1).getID());
-                    System.out.printf("Name: %s %s \n",Bank.employees.get(numOfEmployee - 1).getFirstName(),Bank.employees.get(numOfEmployee - 1).getLastName());
-                    System.out.printf("Address: %s \n",Bank.employees.get(numOfEmployee - 1).getAddress());
-                    System.out.printf("Position: %s \n",Bank.employees.get(numOfEmployee - 1).getPosition());
-                    System.out.printf("Telephone number: %s \n",Bank.employees.get(numOfEmployee - 1).getTelephoneNumber());
-                    System.out.printf("graduated from: %s \n",Bank.employees.get(numOfEmployee - 1).getGraduatedCollege());
-                    System.out.printf("graduation year: %d \n",Bank.employees.get(numOfEmployee - 1).getYearOfGraduation());
-                    System.out.printf("Total grade: %s \n",Bank.employees.get(numOfEmployee - 1).getTotalGrade());
-                    valid = true;
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid input.");
-                    input.nextLine(); // Clear the input buffer
-                } catch (IndexOutOfBoundsException e){
-                    System.out.println("Invalid input.");
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
+        try {
+            if (Bank.employees.isEmpty()){
+                System.out.println("there is no employees yet");
+            } else {
+                for(int i = 0; i < Bank.employees.size(); i++){
+                    System.out.printf("[%d]\t ID: %-5d Name: %-15s Address: %-10s TelephoneNumber: %-17s Graduated from: %-12s year of graduation: %-8d Total grade: %-20s \n",
+                            (i + 1),Bank.employees.get(i).getID(),Bank.employees.get(i).getFirstName().concat(" " + Bank.employees.get(i).getLastName()),
+                            Bank.employees.get(i).getAddress(),Bank.employees.get(i).getTelephoneNumber(),Bank.employees.get(i).getGraduatedCollege(),
+                            Bank.employees.get(i).getYearOfGraduation(),Bank.employees.get(i).getTotalGrade());
                 }
-            } while(!valid);
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 
@@ -103,45 +82,25 @@ public class Admin {
         System.out.println("--------------");
         if (Bank.clients.isEmpty()){
             System.out.println("There is no clients yet");
-            return;
         } else{
-            for(int i = 0; i < Bank.clients.size(); i++){
-                System.out.printf("[%d]\t\tID: %d\tName: %s %s \n",(i + 1),Bank.clients.get(i).getID(),Bank.clients.get(i).getFirstName(),Bank.clients.get(i).getLastName());
-            }
-            System.out.println("--------------");
-
-            boolean valid = false;   // for check choice
-            do {
-                try {
-                    System.out.println("Enter number of the client to show his details");
-                    int numOfClient = input.nextInt();
-                    input.nextLine();
-                    System.out.printf("ID: %d \n",Bank.clients.get(numOfClient - 1).getID());
-                    System.out.printf("Name: %s %s \n",Bank.clients.get(numOfClient - 1).getFirstName(),Bank.clients.get(numOfClient - 1).getLastName());
-                    System.out.printf("Address: %s \n",Bank.clients.get(numOfClient - 1).getAddress());
-                    System.out.printf("Telephone number: %s \n",Bank.clients.get(numOfClient - 1).getTelephoneNumber());
+            try {
+                for(int i = 0; i < Bank.clients.size(); i++){
                     int numOfAccount = 0;
-                    for (int i = 0; i < Bank.accounts.size(); i++) {
-                        if (Bank.accounts.get(i).getClientName().equals(Bank.clients.get(numOfClient - 1).getFirstName().concat(" " + Bank.clients.get(numOfClient - 1).getLastName()))){
-                            numOfAccount++;
-                        }
-                    }
-                    if (numOfAccount == 0){
-                        System.out.println("this client has no accounts");
-                    } else {
-                        System.out.printf("this client has %d account \n",numOfAccount);
-                    }
-                    valid = true;
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid input.");
-                    input.nextLine(); // Clear the input buffer
-                } catch (IndexOutOfBoundsException e){
-                    System.out.println("Invalid input.");
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    System.out.printf("[%d]\t ID: %-5d Name: %-15s Address: %-10s TelephoneNumber: %-17s CreatedBy: %-20s \n",(i + 1),Bank.clients.get(i).getID(),
+                            Bank.clients.get(i).getFirstName().concat(" " + Bank.clients.get(i).getLastName()),Bank.clients.get(i).getAddress(),
+                            Bank.clients.get(i).getTelephoneNumber(),Bank.clients.get(i).getCreatedBy());
                 }
-            } while(!valid);
+            } catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 
+    private static void displayAllAccounts(){
+        for (int i = 0; i < Bank.accounts.size(); i++) {
+            System.out.printf("[%d]\t Client: %-15s Account number: %-10d Type: %-20s Status: %-10s Balance: %f \t HasCreditCard: %-10b \n",(i + 1),Bank.accounts.get(i).getClientName(),
+                    Bank.accounts.get(i).getAccountNumber(),Bank.accounts.get(i).getAccountType(),Bank.accounts.get(i).getAccountStatus(),Bank.accounts.get(i).getBalance(),
+                    Bank.accounts.get(i).getHasCreditCard());
         }
     }
 
@@ -149,7 +108,6 @@ public class Admin {
         System.out.println("--------------");
         if (Bank.transactions.isEmpty()){
             System.out.println("There is no transactions yet");
-            return;
         } else {
             boolean valid = false;   // for check choice
             do{
@@ -200,27 +158,26 @@ public class Admin {
         System.out.println("--------------");
         if(Bank.transactions.isEmpty()){
             System.out.println("There is no transaction yet");
-            return;
         } else{
             try {
                 int counter = 0;    // to know the transaction is exist or no
                 for(int i = 0; i < Bank.transactions.size(); i++){
                     if(Bank.transactions.get(i).getTransactionDate().contains(date)){
-                        System.out.printf("Transaction id: %d \t ",Bank.transactions.get(i).getId());
-                        System.out.printf("Date: %s \t ",Bank.transactions.get(i).getTransactionDate());
-                        System.out.printf("Amount: %f \t ",Bank.transactions.get(i).getAmount());
+                        System.out.printf("Transaction id: %-8d",Bank.transactions.get(i).getId());
+                        System.out.printf("Date: %-18s",Bank.transactions.get(i).getTransactionDate());
+                        System.out.printf("Amount: %-18f",Bank.transactions.get(i).getAmount());
                         if(Bank.transactions.get(i) instanceof WithDrawTransaction){
-                            System.out.printf("Transaction type: %s \t ",((WithDrawTransaction) Bank.transactions.get(i)).getTransactionType());
-                            System.out.printf("Account number: %d \n",((WithDrawTransaction) Bank.transactions.get(i)).getAccountNumber());
+                            System.out.printf("Transaction type: %-25s",((WithDrawTransaction) Bank.transactions.get(i)).getTransactionType());
+                            System.out.printf("Account number: %-10d \n",((WithDrawTransaction) Bank.transactions.get(i)).getAccountNumber());
                         } else if (Bank.transactions.get(i) instanceof TransferTransaction) {
-                            System.out.printf("Transaction type: %s \t ",((TransferTransaction) Bank.transactions.get(i)).getTransactionType());
-                            System.out.printf("Sender Account number: %d \t ",((TransferTransaction) Bank.transactions.get(i)).getSenderAccount());
-                            System.out.printf("Recipient Account number: %d \n",((TransferTransaction) Bank.transactions.get(i)).getRecipientAccount());
+                            System.out.printf("Transaction type: %-25s",((TransferTransaction) Bank.transactions.get(i)).getTransactionType());
+                            System.out.printf("Sender Account number: %-10d",((TransferTransaction) Bank.transactions.get(i)).getSenderAccount());
+                            System.out.printf("Recipient Account number: %-10d \n",((TransferTransaction) Bank.transactions.get(i)).getRecipientAccount());
                         } else if (Bank.transactions.get(i) instanceof DepositTransaction) {
-                            System.out.printf("Transaction type: %s \t ",((DepositTransaction) Bank.transactions.get(i)).getTransactionType());
-                            System.out.printf("Account number: %d \n",((DepositTransaction) Bank.transactions.get(i)).getAccountNumber());
+                            System.out.printf("Transaction type: %-25s",((DepositTransaction) Bank.transactions.get(i)).getTransactionType());
+                            System.out.printf("Account number: %-10d \n",((DepositTransaction) Bank.transactions.get(i)).getAccountNumber());
                         } else {
-                            System.out.printf("Transaction type: %s \n",((CreditCardTransaction) Bank.transactions.get(i)).getTransactionType());
+                            System.out.printf("Transaction type: %-25s \n",((CreditCardTransaction) Bank.transactions.get(i)).getTransactionType());
                         }
                         counter++;
                     }
@@ -250,21 +207,21 @@ public class Admin {
                 int counter = 0;
                 for(int i = 0; i < Bank.transactions.size(); i++){
                     if(Bank.transactions.get(i).getClientName().equals(clientName)){
-                        System.out.printf("Transaction id: %d \t ",Bank.transactions.get(i).getId());
-                        System.out.printf("Date: %s \t ",Bank.transactions.get(i).getTransactionDate());
-                        System.out.printf("Amount: %f \t ",Bank.transactions.get(i).getAmount());
+                        System.out.printf("Transaction id: %-6d",Bank.transactions.get(i).getId());
+                        System.out.printf("Date: %-20s",Bank.transactions.get(i).getTransactionDate());
+                        System.out.printf("Amount: %-8f",Bank.transactions.get(i).getAmount());
                         if(Bank.transactions.get(i) instanceof WithDrawTransaction){
-                            System.out.printf("Transaction type: %s \t ",((WithDrawTransaction) Bank.transactions.get(i)).getTransactionType());
-                            System.out.printf("Account number: %d \n",((WithDrawTransaction) Bank.transactions.get(i)).getAccountNumber());
+                            System.out.printf("Transaction type: %-25s",((WithDrawTransaction) Bank.transactions.get(i)).getTransactionType());
+                            System.out.printf("Account number: %-10d \n",((WithDrawTransaction) Bank.transactions.get(i)).getAccountNumber());
                         } else if (Bank.transactions.get(i) instanceof TransferTransaction) {
-                            System.out.printf("Transaction type: %s \t ",((TransferTransaction) Bank.transactions.get(i)).getTransactionType());
-                            System.out.printf("Sender Account number: %d \t ",((TransferTransaction) Bank.transactions.get(i)).getSenderAccount());
-                            System.out.printf("Recipient Account number: %d \n",((TransferTransaction) Bank.transactions.get(i)).getRecipientAccount());
+                            System.out.printf("Transaction type: %-25s",((TransferTransaction) Bank.transactions.get(i)).getTransactionType());
+                            System.out.printf("Sender Account number: %-10d",((TransferTransaction) Bank.transactions.get(i)).getSenderAccount());
+                            System.out.printf("Recipient Account number: %-10d \n",((TransferTransaction) Bank.transactions.get(i)).getRecipientAccount());
                         } else if (Bank.transactions.get(i) instanceof DepositTransaction) {
-                            System.out.printf("Transaction type: %s \t ",((DepositTransaction) Bank.transactions.get(i)).getTransactionType());
-                            System.out.printf("Account number: %d \n",((DepositTransaction) Bank.transactions.get(i)).getAccountNumber());
+                            System.out.printf("Transaction type: %-25s",((DepositTransaction) Bank.transactions.get(i)).getTransactionType());
+                            System.out.printf("Account number: %-10d \n",((DepositTransaction) Bank.transactions.get(i)).getAccountNumber());
                         } else {
-                            System.out.printf("Transaction type: %s \n",((CreditCardTransaction) Bank.transactions.get(i)).getTransactionType());
+                            System.out.printf("Transaction type: %-25s \n",((CreditCardTransaction) Bank.transactions.get(i)).getTransactionType());
                         }
                         counter++;
                     }
@@ -294,7 +251,7 @@ public class Admin {
         }else if (Bank.clients.isEmpty()) {
             System.out.println("There is no clients yet");
         } else {
-            String clientName = null;     // to select the client
+            String clientName = " ";     // to select the client
             try {
                 int counter = 0;
                 for (int k = 0; k < Bank.clients.size(); k++){
@@ -302,21 +259,21 @@ public class Admin {
                         clientName = Bank.clients.get(k).getFirstName().concat(" " + Bank.clients.get(k).getLastName());
                         for(int i = 0; i < Bank.transactions.size(); i++){
                             if(Bank.transactions.get(i).getClientName().equals(clientName)){
-                                System.out.printf("Transaction id: %d \t ",Bank.transactions.get(i).getId());
-                                System.out.printf("Date: %s \t ",Bank.transactions.get(i).getTransactionDate());
-                                System.out.printf("Amount: %f \t ",Bank.transactions.get(i).getAmount());
+                                System.out.printf("Transaction id: %-6d",Bank.transactions.get(i).getId());
+                                System.out.printf("Date: %-20s",Bank.transactions.get(i).getTransactionDate());
+                                System.out.printf("Amount: %-10f",Bank.transactions.get(i).getAmount());
                                 if(Bank.transactions.get(i) instanceof WithDrawTransaction){
-                                    System.out.printf("Transaction type: %s \t ",((WithDrawTransaction) Bank.transactions.get(i)).getTransactionType());
-                                    System.out.printf("Account number: %d \n",((WithDrawTransaction) Bank.transactions.get(i)).getAccountNumber());
+                                    System.out.printf("Transaction type: %-25s",((WithDrawTransaction) Bank.transactions.get(i)).getTransactionType());
+                                    System.out.printf("Account number: %-10d \n",((WithDrawTransaction) Bank.transactions.get(i)).getAccountNumber());
                                 } else if (Bank.transactions.get(i) instanceof TransferTransaction) {
-                                    System.out.printf("Transaction type: %s \t ",((TransferTransaction) Bank.transactions.get(i)).getTransactionType());
-                                    System.out.printf("Sender Account number: %d \t ",((TransferTransaction) Bank.transactions.get(i)).getSenderAccount());
-                                    System.out.printf("Recipient Account number: %d \n",((TransferTransaction) Bank.transactions.get(i)).getRecipientAccount());
+                                    System.out.printf("Transaction type: %-25s",((TransferTransaction) Bank.transactions.get(i)).getTransactionType());
+                                    System.out.printf("Sender Account number: %-10d",((TransferTransaction) Bank.transactions.get(i)).getSenderAccount());
+                                    System.out.printf("Recipient Account number: %-10d \n",((TransferTransaction) Bank.transactions.get(i)).getRecipientAccount());
                                 } else if (Bank.transactions.get(i) instanceof DepositTransaction) {
-                                    System.out.printf("Transaction type: %s \t ",((DepositTransaction) Bank.transactions.get(i)).getTransactionType());
-                                    System.out.printf("Account number: %d \n",((DepositTransaction) Bank.transactions.get(i)).getAccountNumber());
+                                    System.out.printf("Transaction type: %-25s",((DepositTransaction) Bank.transactions.get(i)).getTransactionType());
+                                    System.out.printf("Account number: %-10d \n",((DepositTransaction) Bank.transactions.get(i)).getAccountNumber());
                                 } else {
-                                    System.out.printf("Transaction type: %s \n",((CreditCardTransaction) Bank.transactions.get(i)).getTransactionType());
+                                    System.out.printf("Transaction type: %-25s \n",((CreditCardTransaction) Bank.transactions.get(i)).getTransactionType());
                                 }
                                 counter++;
                             }
@@ -348,9 +305,9 @@ public class Admin {
                 System.out.println("Press [1] to add new employees :");
                 System.out.println("Press [2] to display all employees :");
                 System.out.println("Press [3] to display all clients :");
-                System.out.println("Press [4] to display all transactions :");
-                System.out.println("Press [5] to logout :");
-
+                System.out.println("Press [4] to display all accounts :");
+                System.out.println("Press [5] to display all transactions :");
+                System.out.println("Press [6] to logout :");
                 int choice = input.nextInt();
                 input.nextLine();
                 switch (choice){
@@ -364,9 +321,12 @@ public class Admin {
                         displayAllClients();
                         break;
                     case 4:
-                        displayAllTransaction();
+                        displayAllAccounts();
                         break;
                     case 5:
+                        displayAllTransaction();
+                        break;
+                    case 6:
                         return;
                     default:
                         System.out.println("Invalid input.");

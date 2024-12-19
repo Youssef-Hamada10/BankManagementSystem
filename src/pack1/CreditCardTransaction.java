@@ -24,8 +24,6 @@ public class CreditCardTransaction extends Transaction{
 
     //implement method
     public static void addTransactionToBank(String name, double amount, int accountNumber){
-//        Transaction trans = new CreditCardTransaction() ;
-//        CreditCardTransaction transaction = (CreditCardTransaction) trans;
         CreditCardTransaction transaction = new CreditCardTransaction();
         transaction.setClientName(name);
         transaction.setAmount(amount);

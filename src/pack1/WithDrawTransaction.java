@@ -25,8 +25,6 @@ public class WithDrawTransaction extends Transaction{
 
     //implement method
     public static void addTransactionToBank(String name,double amount, int accountNumber){
-//        Transaction trans = new WithDrawTransaction() ;
-//        WithDrawTransaction transaction = (WithDrawTransaction) trans;
         WithDrawTransaction transaction = new WithDrawTransaction();
         transaction.setClientName(name);
         transaction.setAmount(amount);

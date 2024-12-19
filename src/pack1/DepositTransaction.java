@@ -26,8 +26,6 @@ public class DepositTransaction extends Transaction{
 
     //implement method
     public static void addTransactionToBank(String name, double amount, int accountNumber){
-//        Transaction trans = new DepositTransaction() ;
-//        DepositTransaction transaction = (DepositTransaction) trans;
         DepositTransaction transaction = new DepositTransaction();
         transaction.setClientName(name);
         transaction.setAmount(amount);

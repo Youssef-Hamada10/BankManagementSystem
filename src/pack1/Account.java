@@ -259,7 +259,7 @@ public abstract class Account {
             } else {
                 this.setHasCreditCard(true);
                 this.creditCard.setStatus("active");
-                System.out.println("You now have a credit card with amount of 20000");
+                System.out.println("You now have a credit card");
             }
         } else {
             System.out.println("You do not have enough money.");
@@ -292,21 +292,21 @@ public abstract class Account {
                 System.out.println("Error......");
             }
             if (valid) {
-                System.out.printf("Transaction id: %d \t ", Bank.transactions.get(i).getId());
-                System.out.printf("Date: %s \t ", Bank.transactions.get(i).getTransactionDate());
-                System.out.printf("Amount: %f \t ", Bank.transactions.get(i).getAmount());
+                System.out.printf("Transaction id: %-8d", Bank.transactions.get(i).getId());
+                System.out.printf("Date: %-20s", Bank.transactions.get(i).getTransactionDate());
+                System.out.printf("Amount: %-20f", Bank.transactions.get(i).getAmount());
                 if (Bank.transactions.get(i) instanceof WithDrawTransaction) {
-                    System.out.printf("Transaction type: %s \t ", ((WithDrawTransaction) Bank.transactions.get(i)).getTransactionType());
-                    System.out.printf("Account number: %d \n", ((WithDrawTransaction) Bank.transactions.get(i)).getAccountNumber());
+                    System.out.printf("Transaction type: %-25s", ((WithDrawTransaction) Bank.transactions.get(i)).getTransactionType());
+                    System.out.printf("Account number: %-10d \n", ((WithDrawTransaction) Bank.transactions.get(i)).getAccountNumber());
                 } else if (Bank.transactions.get(i) instanceof TransferTransaction) {
-                    System.out.printf("Transaction type: %s \t ", ((TransferTransaction) Bank.transactions.get(i)).getTransactionType());
-                    System.out.printf("Sender Account number: %d \t ", ((TransferTransaction) Bank.transactions.get(i)).getSenderAccount());
-                    System.out.printf("Recipient Account number: %d \n", ((TransferTransaction) Bank.transactions.get(i)).getRecipientAccount());
+                    System.out.printf("Transaction type: %-25s", ((TransferTransaction) Bank.transactions.get(i)).getTransactionType());
+                    System.out.printf("Sender Account number: %-10d", ((TransferTransaction) Bank.transactions.get(i)).getSenderAccount());
+                    System.out.printf("Recipient Account number: %-10d \n", ((TransferTransaction) Bank.transactions.get(i)).getRecipientAccount());
                 } else if (Bank.transactions.get(i) instanceof DepositTransaction) {
-                    System.out.printf("Transaction type: %s \t ", ((DepositTransaction) Bank.transactions.get(i)).getTransactionType());
-                    System.out.printf("Account number: %d \n", ((DepositTransaction) Bank.transactions.get(i)).getAccountNumber());
+                    System.out.printf("Transaction type: %-25s", ((DepositTransaction) Bank.transactions.get(i)).getTransactionType());
+                    System.out.printf("Account number: %-10d \n", ((DepositTransaction) Bank.transactions.get(i)).getAccountNumber());
                 } else {
-                    System.out.printf("Transaction type: %s \n", ((CreditCardTransaction) Bank.transactions.get(i)).getTransactionType());
+                    System.out.printf("Transaction type: %-25s \n", ((CreditCardTransaction) Bank.transactions.get(i)).getTransactionType());
                 }
                 counter++;
             }

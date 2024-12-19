@@ -137,7 +137,7 @@ public class Employee extends User {
             return;
         } else {
             for (int i = 0; i < Bank.clients.size(); i++) {
-                System.out.printf("[%d]\t\tID: %d\tName: %s %s \n",(i + 1),Bank.clients.get(i).getID(),Bank.clients.get(i).getFirstName(),Bank.clients.get(i).getLastName());
+                System.out.printf("[%d]\t\tID: %-10dName: %s %s \n",(i + 1),Bank.clients.get(i).getID(),Bank.clients.get(i).getFirstName(),Bank.clients.get(i).getLastName());
             }
             boolean valid = false;   // for checking
             do {
@@ -183,11 +183,11 @@ public class Employee extends User {
             int NOA;
             for (int numOfClient = 0; numOfClient < Bank.clients.size(); numOfClient++) {
                 NOA = 0;
-                System.out.printf("[%d]\t\tID: %d\tName: %s %s\n", (numOfClient + 1), Bank.clients.get(numOfClient).getID(), Bank.clients.get(numOfClient).getFirstName(), Bank.clients.get(numOfClient).getLastName());
+                System.out.printf("[%d]\t\tID: %-10d Name: %s %s\n", (numOfClient + 1), Bank.clients.get(numOfClient).getID(), Bank.clients.get(numOfClient).getFirstName(), Bank.clients.get(numOfClient).getLastName());
                 System.out.println("\t\t----------");
                 for (int numOfAccount = 0; numOfAccount < Bank.accounts.size(); numOfAccount++) {
                     if (Bank.accounts.get(numOfAccount).getClientName().equals(Bank.clients.get(numOfClient).getFirstName().concat(" " + Bank.clients.get(numOfClient).getLastName()))) {
-                        System.out.printf("\t\t[%d]\t\tAccount number: %d\tStatus: %s\tType: %s\tBalance: %f \n", (numOfAccount + 1),
+                        System.out.printf("\t\t[%d]\t\tAccount number: %-10d Status: %-10s Type: %-25s Balance: %-10f \n", (numOfAccount + 1),
                                 Bank.accounts.get(numOfAccount).getAccountNumber(), Bank.accounts.get(numOfAccount).getAccountStatus(),
                                 Bank.accounts.get(numOfAccount).getAccountType(), Bank.accounts.get(numOfAccount).getBalance());
                         NOA++;
@@ -342,7 +342,7 @@ public class Employee extends User {
                     System.out.println("There is no client yet");
                 } else {
                     for (int numOfClient = 0; numOfClient < Bank.clients.size(); numOfClient++) {
-                        System.out.printf("[%d]\t\tID: %d\tName: %s %s \n",(numOfClient + 1),Bank.clients.get(numOfClient).getID(),Bank.clients.get(numOfClient).getFirstName(),Bank.clients.get(numOfClient).getLastName());
+                        System.out.printf("[%d]\t\tID: %-10d Name: %s %s \n",(numOfClient + 1),Bank.clients.get(numOfClient).getID(),Bank.clients.get(numOfClient).getFirstName(),Bank.clients.get(numOfClient).getLastName());
                     }
                     System.out.println("Enter number of client to delete :");
                     int numOfClient = input.nextInt();
@@ -368,7 +368,7 @@ public class Employee extends User {
             System.out.println("There is no accounts yet");
         } else {
             for (int i = 0; i < Bank.accounts.size(); i++) {
-                System.out.printf("[%d] \t\t Name: %s \t Account number: %d \t Status: %s \t Balance: %f \t Account type: %s \n",(i + 1),Bank.accounts.get(i).getClientName(),Bank.accounts.get(i).getAccountNumber(),Bank.accounts.get(i).getAccountStatus(),Bank.accounts.get(i).getBalance(),Bank.accounts.get(i).getAccountType());
+                System.out.printf("[%d]\t\tName: %-20s Account number: %-10d Status: %-10s Balance: %-10f Account type: %-25s \n",(i + 1),Bank.accounts.get(i).getClientName(),Bank.accounts.get(i).getAccountNumber(),Bank.accounts.get(i).getAccountStatus(),Bank.accounts.get(i).getBalance(),Bank.accounts.get(i).getAccountType());
             }
             boolean valid = false;
             do {

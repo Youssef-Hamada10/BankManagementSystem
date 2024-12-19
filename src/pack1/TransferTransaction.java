@@ -34,8 +34,6 @@ public class TransferTransaction extends Transaction{
 
     //implement method
     public static void addTransactionToBank(String name,double amount, int senderAccount, int recipientAccount){
-//        Transaction trans = new TransferTransaction() ;
-//        TransferTransaction transaction = (TransferTransaction) trans;
         TransferTransaction transaction = new TransferTransaction();
         transaction.setClientName(name);
         transaction.setAmount(amount);
