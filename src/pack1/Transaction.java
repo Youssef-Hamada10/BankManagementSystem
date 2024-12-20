@@ -20,9 +20,7 @@ public abstract class Transaction {
 
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        String date = now.format(formatter);
-
-        transactionDate = date;
+         this.transactionDate = now.format(formatter);
     }
 
     // getters and setters

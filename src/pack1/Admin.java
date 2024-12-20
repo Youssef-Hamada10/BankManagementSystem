@@ -98,9 +98,14 @@ public class Admin {
 
     private static void displayAllAccounts(){
         for (int i = 0; i < Bank.accounts.size(); i++) {
-            System.out.printf("[%d]\t Client: %-15s Account number: %-10d Type: %-20s Status: %-10s Balance: %f \t HasCreditCard: %-10b \n",(i + 1),Bank.accounts.get(i).getClientName(),
+            System.out.printf("[%d]\t Client: %-15s Account number: %-10d Type: %-20s Status: %-10s Balance: %f \t HasCreditCard: %-10b",(i + 1),Bank.accounts.get(i).getClientName(),
                     Bank.accounts.get(i).getAccountNumber(),Bank.accounts.get(i).getAccountType(),Bank.accounts.get(i).getAccountStatus(),Bank.accounts.get(i).getBalance(),
                     Bank.accounts.get(i).getHasCreditCard());
+            if(Bank.accounts.get(i).getHasCreditCard()){
+                System.out.printf("Creation Date: %-20s Expiration Date: %-20s Loyalty Points: %-10d \n",Bank.accounts.get(i).creditCard.getDate(),Bank.accounts.get(i).creditCard.getExpDate(),Bank.accounts.get(i).creditCard.getLoyaltyPoints());
+            } else {
+                System.out.println("\n");
+            }
         }
     }
 
@@ -177,7 +182,8 @@ public class Admin {
                             System.out.printf("Transaction type: %-25s",((DepositTransaction) Bank.transactions.get(i)).getTransactionType());
                             System.out.printf("Account number: %-10d \n",((DepositTransaction) Bank.transactions.get(i)).getAccountNumber());
                         } else {
-                            System.out.printf("Transaction type: %-25s \n",((CreditCardTransaction) Bank.transactions.get(i)).getTransactionType());
+                            System.out.printf("Transaction type: %-25s ",((CreditCardTransaction) Bank.transactions.get(i)).getTransactionType());
+                            System.out.printf("Account number: %-10d \n",((CreditCardTransaction) Bank.transactions.get(i)).getAccountNumber());
                         }
                         counter++;
                     }
@@ -221,7 +227,8 @@ public class Admin {
                             System.out.printf("Transaction type: %-25s",((DepositTransaction) Bank.transactions.get(i)).getTransactionType());
                             System.out.printf("Account number: %-10d \n",((DepositTransaction) Bank.transactions.get(i)).getAccountNumber());
                         } else {
-                            System.out.printf("Transaction type: %-25s \n",((CreditCardTransaction) Bank.transactions.get(i)).getTransactionType());
+                            System.out.printf("Transaction type: %-25s",((CreditCardTransaction) Bank.transactions.get(i)).getTransactionType());
+                            System.out.printf("Account Number: %-25s \n",((CreditCardTransaction) Bank.transactions.get(i)).getAccountNumber());
                         }
                         counter++;
                     }
@@ -273,7 +280,8 @@ public class Admin {
                                     System.out.printf("Transaction type: %-25s",((DepositTransaction) Bank.transactions.get(i)).getTransactionType());
                                     System.out.printf("Account number: %-10d \n",((DepositTransaction) Bank.transactions.get(i)).getAccountNumber());
                                 } else {
-                                    System.out.printf("Transaction type: %-25s \n",((CreditCardTransaction) Bank.transactions.get(i)).getTransactionType());
+                                    System.out.printf("Transaction type: %-25s",((CreditCardTransaction) Bank.transactions.get(i)).getTransactionType());
+                                    System.out.printf("Account Number: %-25s \n",((CreditCardTransaction) Bank.transactions.get(i)).getAccountNumber());
                                 }
                                 counter++;
                             }

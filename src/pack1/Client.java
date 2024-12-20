@@ -91,7 +91,12 @@ public class Client extends User {
         int NOA = 0; // number of account
         for (Account account : Bank.accounts){
             if (account.getClientName().equals(this.getFirstName().concat(" "  + this.getLastName()))){
-                System.out.printf("Account number: %d\tStatus: %s\tType: %s\tBalance: %f\tHas credit card: %b \n",account.getAccountNumber(),account.getAccountStatus(),account.getAccountType(),account.getBalance(),account.getHasCreditCard());
+                System.out.printf("Account number: %-8d Status: %-10s Type: %-20s Balance: %f \t Has credit card: %-10b",account.getAccountNumber(),account.getAccountStatus(),account.getAccountType(),account.getBalance(),account.getHasCreditCard());
+                if(account.getHasCreditCard()){
+                    System.out.printf("Creation Date: %-20s Expiration Date: %-20s Loyalty Points: %-10d \n",account.creditCard.getDate(),account.creditCard.getExpDate(),account.creditCard.getLoyaltyPoints());
+                } else {
+                    System.out.println("\n");
+                }
                 NOA++;
             }
         }

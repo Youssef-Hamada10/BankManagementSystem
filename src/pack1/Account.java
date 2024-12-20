@@ -1,5 +1,7 @@
 package pack1;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -201,7 +203,6 @@ public abstract class Account {
        } else {
            if (this.creditCard.getStatus().equals("disable")) {
                System.out.println("Your card is disabled");
-               return;
            } else {
                boolean valid = false;
                do {
@@ -217,8 +218,7 @@ public abstract class Account {
                         System.out.println(e.getMessage());
                     }
                 } while (!valid);
-               if (this.creditCard.getRemainingLimit() >= amount) {
-                   this.creditCard.setRemainingLimit(this.creditCard.getRemainingLimit() - amount);
+               if (this.getBalance() >= amount) {
                    this.setBalance(this.getBalance() - amount);
                    System.out.printf("The remaining balance is : %f \n", this.getBalance());
                    this.creditCard.setLoyaltyPoints(this.creditCard.getLoyaltyPoints() + 5);    // handle loyalty points
@@ -247,7 +247,8 @@ public abstract class Account {
             System.out.printf("Your loyalty points is : %d \n",this.creditCard.getLoyaltyPoints());
             int amount = this.creditCard.getLoyaltyPoints() * 2;
             System.out.printf("Your balance will increase by : %d \n",amount);
-            this.creditCard.setRemainingLimit(this.creditCard.getRemainingLimit() + amount);
+            this.setBalance(this.getBalance() + amount);
+            this.creditCard.setLoyaltyPoints(0);
         }
     }
 
@@ -259,6 +260,10 @@ public abstract class Account {
             } else {
                 this.setHasCreditCard(true);
                 this.creditCard.setStatus("active");
+                LocalDateTime now = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                this.creditCard.setDate(now.format(formatter));
+                this.creditCard.setExpDate( now.plusYears(4).format(formatter));
                 System.out.println("You now have a credit card");
             }
         } else {

@@ -127,11 +127,12 @@ public class Bank {
                     writer.newLine();
                 }
             } else if (type.equals("account")) {
-                writer.write("Name,AccountNumber,Status,Type,Balance,HasCreditCard");
+                writer.write("Name,AccountNumber,Status,Type,Balance,HasCreditCard,CreationDate,ExpirationDate,LoyaltyPoint");
                 writer.newLine();
                 for (Account acc : Bank.accounts){
                     writer.write(acc.getClientName() + "," + acc.getAccountNumber() + "," + acc.getAccountStatus() + "," +
-                            acc.getAccountType() + "," + acc.getBalance() + "," + acc.getHasCreditCard());
+                            acc.getAccountType() + "," + acc.getBalance() + "," + acc.getHasCreditCard() + "," +
+                            acc.creditCard.getDate() + "," + acc.creditCard.getExpDate() + "," + acc.creditCard.getLoyaltyPoints());
                     writer.newLine();
                 }
             } else if (type.equals("transaction")){
@@ -216,6 +217,11 @@ public class Bank {
                         acc.setAccountType(values[3]);
                         acc.setBalance(Double.parseDouble(values[4]));
                         acc.setHasCreditCard(Boolean.parseBoolean(values[5]));
+                        if(acc.getHasCreditCard()){
+                            acc.creditCard.setDate(values[6]);
+                            acc.creditCard.setExpDate(values[7]);
+                            acc.creditCard.setLoyaltyPoints(Integer.parseInt(values[8]));
+                        }
                         Bank.accounts.add(acc);
                     } else {
                         CurrentAccount acc = new CurrentAccount();
@@ -225,6 +231,11 @@ public class Bank {
                         acc.setAccountType(values[3]);
                         acc.setBalance(Double.parseDouble(values[4]));
                         acc.setHasCreditCard(Boolean.parseBoolean(values[5]));
+                        if(acc.getHasCreditCard()){
+                            acc.creditCard.setDate(values[6]);
+                            acc.creditCard.setExpDate(values[7]);
+                            acc.creditCard.setLoyaltyPoints(Integer.parseInt(values[8]));
+                        }
                         Bank.accounts.add(acc);
                     }
                 }
